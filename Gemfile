@@ -39,3 +39,11 @@ gem "jekyll-default-layout", "~> 0.1.4"
 gem "jekyll-github-metadata", "~> 2.13"
 
 gem "jekyll-relative-links", "~> 0.6.1"
+
+gem "jekyll-readme-index", "~> 0.3.0"
+
+gem "jekyll-remote-theme", "~> 0.4.3"
+
+gem "jekyll-include-cache", "~> 0.2.1"
+
+gem "jekyll-sitemap", "~> 1.4"
