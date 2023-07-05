@@ -34,14 +34,14 @@ jobs:
           find: "##NAME##"
           replace: ${{ secrets.REPLACE_NAME }}
           regex: false
-          include: "_config.yml"
+          include: "**"
       - name: Find and Replace XING
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "##SOCIAL_XING##"
           replace: ${{ secrets.REPLACE_SOCIAL_XING }}   
           regex: false
-          include: "_config.yml"
+          include: "**"
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
