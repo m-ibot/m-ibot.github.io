@@ -35,7 +35,7 @@ minimal_mistakes_skin: dark
 locale: "en"
 title_separator: "#"
 subtitle: Me and my projects
-name: "Tobias Meurer"
+name: "##NAME##"
 repository: m-ibot/m-ibot.github.io
 # logo: #TODO
 breadcrumbs: true
@@ -51,17 +51,17 @@ lunr:
 social:
   type: Person
   links:
-    - "https://www.xing.com/profile/Tobias_Meurer6"
+    - "##SOCIAL_XING##"
 
 author:
-  name: "Tobias Meurer"
+  name: "##NAME##"
   avatar: "/assets/images/avatar-highres.png"
   bio: "Software developer"
   location: "Hamburg, Germany"
   links:
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
-      url: "https://www.xing.com/profile/Tobias_Meurer6"
+      url: "##SOCIAL_XING##"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
@@ -70,7 +70,7 @@ footer:
   links:
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
-      url: "https://www.xing.com/profile/Tobias_Meurer6"
+      url: "##SOCIAL_XING##"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
