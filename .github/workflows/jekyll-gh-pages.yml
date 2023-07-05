@@ -32,14 +32,14 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "##NAME##"
-          replace: {{ secrets.REPLACE_NAME }}
+          replace: ${{ secrets.REPLACE_NAME }}
           regex: false
           include: "_config.yml"
       - name: Find and Replace XING
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "##SOCIAL_XING##"
-          replace: {{ secrets.REPLACE_SOCIAL_XING }}   
+          replace: ${{ secrets.REPLACE_SOCIAL_XING }}   
           regex: false
           include: "_config.yml"
       - name: Setup Pages
