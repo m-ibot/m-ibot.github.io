@@ -28,20 +28,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Find and Replace Name/Author
-        uses: jacobtomlinson/gha-find-replace@v3
+      - name: Find and Replace Placeholders
+        uses: LSVH/gha-replace-placeholders@v1
         with:
-          find: "##NAME##"
-          replace: ${{ secrets.REPLACE_NAME }}
-          regex: false
-          include: "**"
-      - name: Find and Replace XING
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "##SOCIAL_XING##"
-          replace: ${{ secrets.REPLACE_SOCIAL_XING }}   
-          regex: false
-          include: "**"
+          placeholders: |
+            ##NAME##=${{ secrets.REPLACE_NAME }}
+            ##SOCIAL_XING##=${{ secrets.REPLACE_SOCIAL_XING }}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
