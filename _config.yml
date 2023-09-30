@@ -23,10 +23,10 @@ title: m-ibot
 
 #email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  This website provides information about m-ibot and his projects.
+  This website provides information about ##NAME## and his projects.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://m-ibot.github.io/" 
-github_username:  m-ibot
+url: "https://m-ibot.github.io/"
+github_username: m-ibot
 
 remote_theme: mmistakes/minimal-mistakes@4.24.0
 
@@ -43,7 +43,6 @@ date_format: "%d-%m-%Y"
 read_time: true
 search: true
 timezone: Europe/Berlin
-
 
 lunr:
   search_within_pages: true
@@ -82,8 +81,6 @@ tag_archive:
   type: liquid
   path: /tags/
 
-
-
 defaults:
   # _posts
   - scope:
@@ -98,7 +95,7 @@ defaults:
       share: true
       related: true
       toc: true
-   # _pages
+    # _pages
   - scope:
       path: ""
       type: pages
@@ -111,8 +108,10 @@ defaults:
       share: true
       related: false
       toc: true
-
-
+  - scope:
+      path: "docs"
+    values:
+      sitemap: false
 
 # Build settings
 theme: minima
@@ -126,12 +125,8 @@ plugins:
   - jekyll-include-cache
   - jekyll-sitemap
 
-
-
-
 readme_index:
   enabled: true
-
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
@@ -140,7 +135,8 @@ readme_index:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
+exclude:
+  - docs
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
