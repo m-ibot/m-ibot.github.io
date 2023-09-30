@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - name: "Dependency Review"
         uses: actions/dependency-review-action@v3
-  build:
+  build-on-pullrequest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
