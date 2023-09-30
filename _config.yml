@@ -25,7 +25,7 @@ title: m-ibot
 description: >- # this means to ignore newlines until "baseurl:"
   This website provides information about ##NAME## and his projects.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://m-ibot.github.io/"
+url: "https://m-ibot.github.io"
 github_username: m-ibot
 
 remote_theme: mmistakes/minimal-mistakes@4.24.0
