@@ -1,7 +1,10 @@
 ---
+share: true
 permalink: /
-layout: home
+layout: single
 title: Welcome!
+toc: false
+classes: wide
 ---
 
 Hi!
