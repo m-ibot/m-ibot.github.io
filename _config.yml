@@ -41,7 +41,8 @@ logo: /assets/images/m-ibotilogo.png
 breadcrumbs: true
 date_format: "%d-%m-%Y"
 read_time: true
-search: true
+# search did not show anyresults. enable once it's fixed.
+search: false
 timezone: Europe/Berlin
 
 lunr:
