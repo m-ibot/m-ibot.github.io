@@ -2,7 +2,7 @@
 share: true
 permalink: /
 layout: single
-title: Welcome!
+title: Welcome to m-ibot.eu!
 toc: false
 classes: wide
 ---
