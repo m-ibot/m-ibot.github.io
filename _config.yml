@@ -68,13 +68,15 @@ author:
 
 footer:
   links:
-    - label: "Xing"
-      icon: "fab fa-fw fa-xing-square"
-      url: "##SOCIAL_XING##"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
-
+    - label: "Xing"
+      icon: "fab fa-fw fa-xing-square"
+      url: "##SOCIAL_XING##"
+    - label: "e-Mail"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:##CONTACT_E_MAIL##"
 category_archive:
   type: liquid
   path: /categories/
