@@ -2,7 +2,15 @@
 layout: none
 sitemap: false
 ---
+
+User-agent: Yandex
+Disallow: /
+User-agent: YandexBot
+Disallow: /
 User-agent: *
 Disallow: /about-me
+
+
+
 
 Sitemap: {{ site.url }}/sitemap.xml
