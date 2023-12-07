@@ -3,6 +3,6 @@ layout: none
 sitemap: false
 ---
 User-agent: *
-Disallow: /about
+Disallow: /about-me
 
 Sitemap: {{ site.url }}/sitemap.xml
