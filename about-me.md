@@ -3,11 +3,11 @@ layout: single
 title: About Me
 permalink: about-me
 sitemap: false
+toc: false
+classes: wide
 ---
 
-## ##NAME##
-
-![Avatar ##NAME##](/assets/images/avatar-highres.png)
+![portrait of ##NAME##, black and white photo, man with glasses and short hair, outside, blurred background](/assets/images/profile.jpeg "Profile photo ##NAME##")
 
 Hi!
 
