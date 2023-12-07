@@ -37,11 +37,12 @@ title_separator: "#"
 subtitle: Me and my projects
 name: "##NAME##"
 repository: m-ibot/m-ibot.github.io
-logo: /assets/images/m-ibotilogo.png
+logo: /assets/images/m-ibot-logo.png
+og_image: /assets/images/m-ibot-logo.png
 breadcrumbs: true
 date_format: "%d-%m-%Y"
 read_time: true
-# search did not show anyresults. enable once it's fixed.
+# search did not show any results. enable once it's fixed.
 search: false
 timezone: Europe/Berlin
 
@@ -56,12 +57,12 @@ social:
 
 author:
   name: "##NAME##"
-  avatar: "/assets/images/avatar-highres.png"
+  avatar: "/assets/images/profile.jpeg"
   bio: "Software Engineer"
   location: "Hamburg, Germany"
   links:
     - label: "LinkedIn"
-      icon: "fab fa-linkedin"
+      icon: "fab fa-fw fa-linkedin"
       url: "##SOCIAL_LINKEDIN##"
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
@@ -76,7 +77,7 @@ footer:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
     - label: "LinkedIn"
-      icon: "fab fa-linkedin"
+      icon: "fab fa-fw fa-linkedin"
       url: "##SOCIAL_LINKEDIN##"
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
