@@ -63,13 +63,13 @@ author:
   bio: "Software Engineer"
   location: "Hamburg, Germany"
   links:
-    - label: "LinkedIn"
+    - label: "LinkedIn profile"
       icon: "fab fa-fw fa-linkedin"
       url: "##SOCIAL_LINKEDIN##"
-    - label: "Xing"
+    - label: "Xing profile"
       icon: "fab fa-fw fa-xing-square"
       url: "##SOCIAL_XING##"
-    - label: "GitHub"
+    - label: "GitHub profile"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
 
