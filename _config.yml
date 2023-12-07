@@ -45,6 +45,8 @@ read_time: true
 # search did not show any results. enable once it's fixed.
 search: false
 timezone: Europe/Berlin
+google_site_verification: "##SEO_GOOGLE##"
+#bing_site_verification: "##SEO_BING##"
 
 lunr:
   search_within_pages: true
