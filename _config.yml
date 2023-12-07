@@ -52,6 +52,7 @@ social:
   type: Person
   links:
     - "##SOCIAL_XING##"
+    - "##SOCIAL_LINKEDIN##"
 
 author:
   name: "##NAME##"
@@ -59,6 +60,9 @@ author:
   bio: "Software Engineer"
   location: "Hamburg, Germany"
   links:
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "##SOCIAL_LINKEDIN##"
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
       url: "##SOCIAL_XING##"
@@ -71,6 +75,9 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/m-ibot"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "##SOCIAL_LINKEDIN##"
     - label: "Xing"
       icon: "fab fa-fw fa-xing-square"
       url: "##SOCIAL_XING##"
