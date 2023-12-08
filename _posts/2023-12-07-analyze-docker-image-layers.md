@@ -3,6 +3,7 @@ layout: posts
 title: "Analyze Docker images"
 tags: docker
 classes: wide
+description: "In this blog post different tools to analyze docker images get introduced. We take a look at docker on board tools, dive and portainer."
 ---
 
 When working with docker, it can be useful to take a closer look into a docker image. E.g for debugging purpose or because you have a docker image from an untrusted source and you want to check what happens inside the docker image before running it as a container. In this blog post I want to take a closer look into some tools that I used for this purpose.
