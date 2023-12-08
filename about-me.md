@@ -6,11 +6,11 @@ toc: false
 classes: wide
 ---
 
-![portrait of ##NAME##, black and white photo, man with glasses and short hair, outside, blurred background](/assets/images/profile.jpeg "Profile photo ##NAME##")
+![portrait of {{ site.author.name }}, black and white photo, man with glasses and short hair, outside, blurred background](/assets/images/profile.jpeg "Profile photo {{ site.author.name }}")
 
 Hi!
 
-I am ##NAME##, a senior software engineer from Hamburg, Germany.
+I am {{ site.author.name }}, a senior software engineer from Hamburg, Germany.
 
 As long as I can remember, I am into computer stuff. I got my first own computer as a teenager and did not only use it for gaming, but also understand how things work. I visited a technical college and made a degree with the focus on information technology.
 
