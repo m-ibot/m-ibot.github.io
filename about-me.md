@@ -2,7 +2,6 @@
 layout: single
 title: About Me
 permalink: about-me
-sitemap: false
 toc: false
 classes: wide
 ---
