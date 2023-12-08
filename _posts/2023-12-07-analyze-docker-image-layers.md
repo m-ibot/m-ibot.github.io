@@ -55,7 +55,7 @@ The commands that you see in the `CREATED BY` column can also be found in the Do
 
 One issue you probably saw already is, that some commands are truncated and the overall readability of the output is not great. You can adjust the output format a bit (run `docker history --help` for options). But honestly, I found the `docker history` command not the best tool for the analysis, since it output format is limited and with longer commands it does not give a great human readable overview. Let's see, if we find other tools.
 
-# dive
+## dive
 
 One of my favorite tools is [dive](https://github.com/wagoodman/dive). It's a command line tool that is quite easy to use thanks to it's keyboard navigation and well structured layout. Let's dive into our docker image be running `dive maven:3.9.5-eclipse-temurin-11`.
 
@@ -71,7 +71,7 @@ With `Tab`, we can switch to the right layer contents view (and back). Here we c
 
 If you build a docker image yourself,the `Image efficiency score` in the `Image Details` might be interesting, if you want to optimize your image size. You can even integrate `dive` into your CI pipeline to check the image efficiency during your builds. See [dive - CI Integration](https://github.com/wagoodman/dive#ci-integration) for details.
 
-# Portainer
+## Portainer
 
 The third tool I want to look into is [Portainer](https://www.portainer.io/). Portainer is container management software, that is also available in a free Community Edition. It is not a tool specialized in analyzing images and has a much wider scope. But it is my preferred GUI tool for docker on Linux and if you look for graphic tool instead of command lines tool it is worth a try.
 
@@ -85,6 +85,6 @@ Once we click on the ID of our `maven` image, we can see some details of the ima
 
 ![Screenshot of portainer with details about different layers of a docker image](/assets/images/posts/2023-12-07_analyze_docker-portainer_image_details.png "Image Layer")
 
-# Summary
+## Summary
 
 There are different tools to analyze docker images. The docker onboard tools are a bit limited but `dive` is an excellent command line tools. Users that prefer graphical interfaces can give `Portainer` a try.
