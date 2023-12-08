@@ -1,7 +1,7 @@
 ---
 permalink: /
 layout: home
-title: m-ibot.eu
+title: Home | ##NAME##
 toc: false
 classes: wide
 ---

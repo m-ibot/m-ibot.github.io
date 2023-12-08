@@ -23,7 +23,7 @@ title: m-ibot.eu
 
 #email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  This website provides information about ##NAME## and his projects.
+  This is m-ibot.eu, ##NAME##'s personal website. Read interesting blog posts, about my projects and about me.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://m-ibot.eu"
 github_username: m-ibot
