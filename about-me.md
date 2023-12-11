@@ -23,3 +23,8 @@ While studying I started to work as a working student at a digital agency and st
 In my spare time I love to travel, hike, bike and boulder or - if the weather is bad - watch good series and movies and play video games. And the best thing is to do all this with my loved ones, friends and family.
 
 If you want to know more about me or my career path, you'll find links to some of my profiles on other platforms on this website. If you like any of my blog posts, feel free to share them with others.
+
+```java
+jshell> var domain = new StringBuilder("Tobi M").reverse().toString().toLowerCase().replace(" ", "-").concat(".eu");
+domain ==> "m-ibot.eu"
+```
