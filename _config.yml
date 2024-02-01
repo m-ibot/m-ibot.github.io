@@ -39,15 +39,17 @@ name: "##NAME##"
 repository: m-ibot/m-ibot.github.io
 logo: /assets/images/m-ibot-logo.png
 og_image: /assets/images/m-ibot-logo.png
-breadcrumbs: true
+breadcrumbs: false
 date_format: "%d-%m-%Y"
 read_time: true
-# search did not show any results. enable once it's fixed.
-search: false
 timezone: Europe/Berlin
 google_site_verification: "##SEO_GOOGLE##"
 bing_site_verification: "##SEO_BING##"
 
+# search did not show any results. enable once it's fixed.
+search: true
+search_provider: lunr
+search_full_content: true
 lunr:
   search_within_pages: true
 
@@ -87,9 +89,9 @@ footer:
     - label: "e-Mail"
       icon: "fas fa-fw fa-envelope"
       url: "mailto:##CONTACT_E_MAIL##"
-category_archive:
-  type: liquid
-  path: /categories/
+# category_archive:
+#   type: liquid
+#   path: /categories/
 tag_archive:
   type: liquid
   path: /tags/
@@ -97,7 +99,7 @@ tag_archive:
 defaults:
   # _posts
   - scope:
-      path: ""
+      path: "_posts"
       type: posts
     values:
       layout: single
@@ -108,7 +110,7 @@ defaults:
       share: true
       related: true
       toc: true
-    # _pages
+  # _pages
   - scope:
       path: ""
       type: pages
@@ -121,10 +123,6 @@ defaults:
       share: true
       related: false
       toc: true
-  - scope:
-      path: "docs"
-    values:
-      sitemap: false
 
 # Build settings
 theme: minima
