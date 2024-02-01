@@ -1,3 +1,5 @@
 main:
+  - title: "Posts"
+    url: "/tags"
   - title: "About Me"
     url: "/about-me"

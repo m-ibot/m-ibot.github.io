@@ -1,7 +1,7 @@
 ---
 layout: posts
 title: "Scientific Computing with Python certificate on freecodecamp.org - Review"
-tags: python, certificate, review
+tags: python certificate review
 classes: wide
 description: "I just finished the Scientific Computing with Python certificate by freeCodeCamp and this is my personal review."
 ---

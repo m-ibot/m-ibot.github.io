@@ -7,5 +7,7 @@ User-agent: Yandex
 Disallow: /
 User-agent: YandexBot
 Disallow: /
+User-agent: *
+Disallow:
 
 Sitemap: {{ site.url }}/sitemap.xml
