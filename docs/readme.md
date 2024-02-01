@@ -47,3 +47,7 @@ One might argue that any information that it published on a public website can a
 Therefore I used some variables with the pattern `##VARIABLE_NAME##` that will be replaced during the deployment. The actually values are stored as GitHub secrets.
 
 A simple bash command is used within a shell action during the page deployment. See the step `Find and Replace Placeholders` in [](../.github/workflows/jekyll-gh-pages.yml). This might not be the most elegant way to achive that, but it does it's job and over engineering such a simple task is also not a good idea.
+
+## Overwrite includes from minimal mistakes theme
+
+Templates that are included into the pages, e.g. recent posts, can be overwritten by copy and pasting (and adjusting) these includes from [minimal-mistakes `_includes` on Github](https://github.com/mmistakes/minimal-mistakes/tree/master/_includes) to the [includes directory](../_includes/) of this project.
