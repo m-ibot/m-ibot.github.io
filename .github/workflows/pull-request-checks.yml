@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: "Checkout Repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: "Dependency Review"
         uses: actions/dependency-review-action@v4
   build-on-pullrequest:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
