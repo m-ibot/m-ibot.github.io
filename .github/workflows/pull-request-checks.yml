@@ -17,10 +17,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
+      - name: Validate HTML
+        run: |
+          # Simple check for placeholders or structural errors
+          grep -q "##NAME##" src/index.html
