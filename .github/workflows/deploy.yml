@@ -1,0 +1,36 @@
+name: Deploy Website
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find and Replace Placeholders
+        shell: bash
+        run: |
+          find src -type f -print0 | xargs -0 sed -i \
+            -e "s|##NAME##|${{ secrets.REPLACE_NAME }}|g" \
+            -e "s|##SOCIAL_XING##|${{ secrets.REPLACE_SOCIAL_XING }}|g" \
+            -e "s|##SOCIAL_LINKEDIN##|${{ secrets.REPLACE_SOCIAL_LINKEDIN }}|g" \
+            -e "s|##SOCIAL_GITHUB##|${{ secrets.REPLACE_SOCIAL_GITHUB }}|g" \
+            -e "s|##CONTACT_E_MAIL##|${{ secrets.REPLACE_CONTACT_E_MAIL }}|g" \
+            -e "s|##SEO_BING##|${{ secrets.REPLACE_SEO_BING }}|g" \
+            -e "s|##DOMAIN##|${{ secrets.REPLACE_DOMAIN }}|g" \
+            -e "s|##SEO_GOOGLE##|${{ secrets.REPLACE_SEO_GOOGLE }}|g" \
+            -e "s|##DATE##|$(date +'%Y-%m-%d')|g" \
+            -e "s|##YEAR##|$(date +'%Y')|g"
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'src'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
