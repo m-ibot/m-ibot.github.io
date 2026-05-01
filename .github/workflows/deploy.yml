@@ -11,26 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Find and Replace Placeholders
+      - name: Build Website
         shell: bash
-        run: |
-          find src -type f -print0 | xargs -0 sed -i \
-            -e "s|##NAME##|${{ secrets.REPLACE_NAME }}|g" \
-            -e "s|##SOCIAL_XING##|${{ secrets.REPLACE_SOCIAL_XING }}|g" \
-            -e "s|##SOCIAL_LINKEDIN##|${{ secrets.REPLACE_SOCIAL_LINKEDIN }}|g" \
-            -e "s|##SOCIAL_GITHUB##|${{ secrets.REPLACE_SOCIAL_GITHUB }}|g" \
-            -e "s|##CONTACT_E_MAIL##|${{ secrets.REPLACE_CONTACT_E_MAIL }}|g" \
-            -e "s|##SEO_BING##|${{ secrets.REPLACE_SEO_BING }}|g" \
-            -e "s|##DOMAIN##|${{ secrets.REPLACE_DOMAIN }}|g" \
-            -e "s|##SEO_GOOGLE##|${{ secrets.REPLACE_SEO_GOOGLE }}|g" \
-            -e "s|##DATE##|$(date +'%Y-%m-%d')|g" \
-            -e "s|##YEAR##|$(date +'%Y')|g"
+        env:
+          REPLACE_NAME: ${{ secrets.REPLACE_NAME }}
+          REPLACE_SOCIAL_XING: ${{ secrets.REPLACE_SOCIAL_XING }}
+          REPLACE_SOCIAL_LINKEDIN: ${{ secrets.REPLACE_SOCIAL_LINKEDIN }}
+          REPLACE_SOCIAL_GITHUB: ${{ secrets.REPLACE_SOCIAL_GITHUB }}
+          REPLACE_CONTACT_E_MAIL: ${{ secrets.REPLACE_CONTACT_E_MAIL }}
+          REPLACE_SEO_BING: ${{ secrets.REPLACE_SEO_BING }}
+          REPLACE_DOMAIN: ${{ secrets.REPLACE_DOMAIN }}
+          REPLACE_SEO_GOOGLE: ${{ secrets.REPLACE_SEO_GOOGLE }}
+        run: node build.js
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'src'
+          path: 'dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
