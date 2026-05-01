@@ -2,6 +2,10 @@
 
 This project is a personal website for **m-ibot.eu**, owned by Tobi M, a senior software engineer. It has been recreated as a high-performance static one-pager, moving away from the previous Jekyll-based implementation.
 
+## Hints
+
+Before committing any changes, check the `.gitignore` file.  Ignored files *must not* be commited.
+
 ## Target Webpage
 The site is a modern, accessible one-pager designed with the following constraints:
 - **One Pager**: All content (About, Contact, Imprint) on a single page.
@@ -15,7 +19,7 @@ For detailed design decisions and technical specifications, see the documentatio
 - `docs/superpowers/specs/` (Technical specifications)
 - `docs/superpowers/plans/` (Implementation plans)
 
-The files in ocs' *must not* be commited to git.
+The files in `docs` *must not* be commited to git.
 
 ## Key Technologies
 - **HTML5/CSS3**: Core site construction.
