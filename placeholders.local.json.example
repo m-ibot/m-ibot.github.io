@@ -1,0 +1,10 @@
+{
+  "REPLACE_NAME": "John Doe",
+  "REPLACE_DOMAIN": "localhost",
+  "REPLACE_SOCIAL_LINKEDIN": "https://linkedin.com/in/johndoe",
+  "REPLACE_SOCIAL_XING": "https://xing.com/profile/John_Doe",
+  "REPLACE_SOCIAL_GITHUB": "https://github.com/johndoe",
+  "REPLACE_CONTACT_E_MAIL": "john@example.com",
+  "REPLACE_SEO_GOOGLE": "google-site-verification-dummy",
+  "REPLACE_SEO_BING": "msvalidate-dummy"
+}

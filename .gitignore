@@ -10,5 +10,8 @@ ideas.md
 
 *.skill
 
+dist/
+placeholders.local.json
+
 
 
