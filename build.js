@@ -145,6 +145,15 @@ function getPlaceholders(dato) {
     };
 }
 
+function processFile(filePath, placeholders) {
+    if (!fs.existsSync(filePath)) return;
+    let content = fs.readFileSync(filePath, 'utf8');
+    for (const [key, value] of Object.entries(placeholders)) {
+        content = content.split(key).join(value);
+    }
+    fs.writeFileSync(filePath, content);
+}
+
 function processHTML(placeholders, minCssFilename = 'style.min.css') {
     const htmlPath = path.join(DIST_DIR, 'index.html');
     if (!fs.existsSync(htmlPath)) return;
@@ -154,13 +163,12 @@ function processHTML(placeholders, minCssFilename = 'style.min.css') {
     // Update CSS link
     html = html.replace('href="style.css"', `href="${minCssFilename}"`);
 
-    // Replace placeholders
-    for (const [key, value] of Object.entries(placeholders)) {
-        html = html.split(key).join(value);
-    }
-
     fs.writeFileSync(htmlPath, html);
-    console.log('HTML processed with placeholders and minified CSS link');
+
+    processFile(htmlPath, placeholders);
+    processFile(path.join(DIST_DIR, 'manifest.json'), placeholders);
+    
+    console.log('HTML and manifest processed with placeholders and minified CSS link');
 }
 
 async function getDatoCmsData() {

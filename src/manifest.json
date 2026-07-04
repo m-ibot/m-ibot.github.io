@@ -1,11 +1,11 @@
 {
-  "name": "##NAME## - Senior Software Engineer",
-  "short_name": "##NAME##",
+  "name": "##FULL_NAME## - ##TITLE##",
+  "short_name": "##FIRST_NAME##",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#222831",
   "theme_color": "#007A80",
-  "description": "Personal website of ##NAME## (##DOMAIN##).",
+  "description": "##META_DESCRIPTION##",
   "icons": [
     {
       "src": "assets/images/m-ibot-logo.png",
