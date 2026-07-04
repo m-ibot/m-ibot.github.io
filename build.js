@@ -66,30 +66,21 @@ function getPlaceholders(dato) {
     const fullName = (profile.firstName && profile.lastName) ? `${profile.firstName} ${profile.lastName}` : (localData.REPLACE_FULL_NAME || `${firstName} ${lastName}`);
     const title = profile.title || localData.REPLACE_TITLE || '##TITLE##';
     
-    let aboutMeTextRaw = profile.aboutme || localData.REPLACE_ABOUT_ME || '##ABOUT_ME##';
-    aboutMeTextRaw = aboutMeTextRaw.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-        const target = url.startsWith('http') ? ' target="_blank"' : '';
-        return `<a href="${url}"${target} rel="noopener noreferrer">${text}</a>`;
-    });
+    let aboutMeHtml = profile.aboutme || localData.REPLACE_ABOUT_ME || '##ABOUT_ME##';
 
-    const rawParagraphs = aboutMeTextRaw.split(/\n\n+/).map(p => p.trim()).filter(p => p);
-    const formattedParagraphs = rawParagraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`);
+    // Split the HTML into individual <p> blocks (field now outputs HTML directly)
+    const paragraphs = aboutMeHtml.split(/\n+/).map(p => p.trim()).filter(p => p.startsWith('<p>'));
 
     let aboutMeText = '';
-    if (formattedParagraphs.length <= 1) {
-        aboutMeText = formattedParagraphs.join('');
+    if (paragraphs.length <= 1) {
+        aboutMeText = paragraphs.join('');
     } else {
         aboutMeText = `<input type="checkbox" id="about-toggle" class="about-toggle sr-only" autocomplete="off">\n<div class="about-container">\n`;
-        aboutMeText += `    <div class="about-item">${formattedParagraphs[0]}</div>\n`;
-        
-        if (formattedParagraphs.length > 1) {
-            aboutMeText += `    <div class="about-item item-faded">${formattedParagraphs[1]}</div>\n`;
+        aboutMeText += `    <div class="about-item">${paragraphs[0]}</div>\n`;
+        aboutMeText += `    <div class="about-item item-faded">${paragraphs[1]}</div>\n`;
+        for (let i = 2; i < paragraphs.length; i++) {
+            aboutMeText += `    <div class="about-item item-hidden">${paragraphs[i]}</div>\n`;
         }
-        
-        for (let i = 2; i < formattedParagraphs.length; i++) {
-            aboutMeText += `    <div class="about-item item-hidden">${formattedParagraphs[i]}</div>\n`;
-        }
-        
         aboutMeText += `</div>\n<div class="about-toggle-wrapper">\n    <label for="about-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n</div>`;
     }
 
