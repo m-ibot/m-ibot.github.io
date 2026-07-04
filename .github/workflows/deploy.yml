@@ -22,6 +22,7 @@ jobs:
           REPLACE_SEO_BING: ${{ secrets.REPLACE_SEO_BING }}
           REPLACE_DOMAIN: ${{ secrets.REPLACE_DOMAIN }}
           REPLACE_SEO_GOOGLE: ${{ secrets.REPLACE_SEO_GOOGLE }}
+          DATO_CMS_API_KEY: ${{ secrets.DATO_CMS_API_KEY }}
         run: node build.js
       - name: Setup Pages
         uses: actions/configure-pages@v4
