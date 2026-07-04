@@ -46,5 +46,11 @@ npx serve dist
 python3 -m http.server --directory dist
 ```
 
+### Placeholders & DatoCMS Data Fallback
+
+The build script relies on DatoCMS to populate profile information, SEO metadata, and the Experience & Education timeline. However, it is designed with a fallback mechanism for local development:
+- **Local Development**: If you run the build script locally without setting a `DATO_CMS_API_KEY`, or if the API request fails, the build will not fail. Instead, it will log a warning and fall back to the dummy data provided in `placeholders.local.json`. This allows for seamless offline development.
+- **CI / Deployment**: When running in a Continuous Integration environment (such as GitHub Actions, where `CI=true`), the build script strictly requires the DatoCMS data. If the `DATO_CMS_API_KEY` is missing or the API request fails, the build will explicitly fail and abort. This ensures that the site is never accidentally deployed with missing or mocked data.
+
 ## Deployment
-The site is automatically deployed to GitHub Pages via a GitHub Actions workflow whenever changes are pushed to the `main` branch. Ensure that your `DATO_CMS_API_KEY` and other placeholders are set in your repository's secrets.
+The site is automatically deployed to GitHub Pages via a GitHub Actions workflow whenever changes are pushed to the `main` branch. Ensure that your `DATO_CMS_API_KEY` is set in your repository's secrets.

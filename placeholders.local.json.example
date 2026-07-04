@@ -1,5 +1,8 @@
 {
-  "REPLACE_NAME": "John Doe",
+  "REPLACE_FIRST_NAME": "John",
+  "REPLACE_LAST_NAME": "Doe",
+  "REPLACE_TITLE": "Senior Software Engineer",
+  "REPLACE_EXPERIENCE_AND_EDUCATION": "<div class=\"timeline\"><div class=\"timeline-item\"><div class=\"timeline-content\"><h3 class=\"timeline-title\">Mocked Job Title</h3><div class=\"timeline-subtitle\">Mocked Company</div><div class=\"timeline-date\">Jan 2020 – Present</div></div></div></div>",
   "REPLACE_DOMAIN": "localhost",
   "REPLACE_SOCIAL_LINKEDIN": "https://linkedin.com/in/johndoe",
   "REPLACE_SOCIAL_XING": "https://xing.com/profile/John_Doe",

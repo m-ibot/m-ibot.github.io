@@ -42,18 +42,24 @@ function getPlaceholders(dato) {
     const profile = dato.profile || {};
     const tech = dato.technicaldataModel || {};
 
-    const name = (profile.firstName && profile.lastName) ? `${profile.firstName} ${profile.lastName}` : profile.title;
+    const firstName = profile.firstName || localData.REPLACE_FIRST_NAME || '##FIRST_NAME##';
+    const lastName = profile.lastName || localData.REPLACE_LAST_NAME || '##LAST_NAME##';
+    const fullName = (profile.firstName && profile.lastName) ? `${profile.firstName} ${profile.lastName}` : (localData.REPLACE_FULL_NAME || `${firstName} ${lastName}`);
+    const title = profile.title || localData.REPLACE_TITLE || '##TITLE##';
 
     const now = new Date();
     return {
-        '##NAME##': name || process.env.REPLACE_NAME || localData.REPLACE_NAME || '##NAME##',
-        '##SOCIAL_XING##': profile.xing || process.env.REPLACE_SOCIAL_XING || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
-        '##SOCIAL_LINKEDIN##': profile.linkedin || process.env.REPLACE_SOCIAL_LINKEDIN || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
-        '##SOCIAL_GITHUB##': profile.github || process.env.REPLACE_SOCIAL_GITHUB || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
-        '##CONTACT_E_MAIL##': profile.eMail || process.env.REPLACE_CONTACT_E_MAIL || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
-        '##SEO_BING##': tech.seoIdBing || process.env.REPLACE_SEO_BING || localData.REPLACE_SEO_BING || '##SEO_BING##',
-        '##DOMAIN##': tech.domain || process.env.REPLACE_DOMAIN || localData.REPLACE_DOMAIN || '##DOMAIN##',
-        '##SEO_GOOGLE##': tech.seoIdGoogle || process.env.REPLACE_SEO_GOOGLE || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
+        '##FIRST_NAME##': firstName,
+        '##LAST_NAME##': lastName,
+        '##FULL_NAME##': fullName,
+        '##TITLE##': title,
+        '##SOCIAL_XING##': profile.xing || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
+        '##SOCIAL_LINKEDIN##': profile.linkedin || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
+        '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
+        '##CONTACT_E_MAIL##': profile.eMail || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
+        '##SEO_BING##': tech.seoIdBing || localData.REPLACE_SEO_BING || '##SEO_BING##',
+        '##DOMAIN##': tech.domain || localData.REPLACE_DOMAIN || '##DOMAIN##',
+        '##SEO_GOOGLE##': tech.seoIdGoogle || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
         '##DATE##': now.toISOString().split('T')[0],
         '##YEAR##': now.getFullYear().toString()
     };
@@ -87,7 +93,14 @@ async function getDatoCmsData() {
         if (match) token = match[1].trim();
     }
     
-    if (!token) return { html: '<!-- No DatoCMS token provided -->', datoPlaceholders: {} };
+    const isCI = process.env.CI === 'true';
+    if (!token) {
+        if (isCI) {
+            throw new Error("CRITICAL: DATO_CMS_API_KEY is required in CI environment. Deployment aborted.");
+        }
+        console.warn("Warning: No DatoCMS token provided. Falling back to local mock data.");
+        return { html: null, datoPlaceholders: {} };
+    }
 
     const query = `
       query {
@@ -141,7 +154,11 @@ async function getDatoCmsData() {
         const data = await response.json();
         if (data.errors) {
             console.error('DatoCMS Error:', data.errors);
-            return { html: '<!-- Error loading experience data -->', datoPlaceholders: {} };
+            if (isCI) {
+                throw new Error("CRITICAL: Failed to load data from DatoCMS in CI environment. Deployment aborted.");
+            }
+            console.warn("Warning: Failed to fetch DatoCMS data. Falling back to local mock data.");
+            return { html: null, datoPlaceholders: {} };
         }
 
         const datoPlaceholders = {
@@ -214,7 +231,12 @@ async function getDatoCmsData() {
         
     } catch (err) {
         console.error('Error fetching DatoCMS data:', err);
-        return { html: '<!-- Error fetching DatoCMS data -->', datoPlaceholders: {} };
+        const isCI = process.env.CI === 'true';
+        if (isCI) {
+            throw new Error("CRITICAL: Error fetching DatoCMS data in CI environment. Deployment aborted.");
+        }
+        console.warn("Warning: Error fetching DatoCMS data. Falling back to local mock data.");
+        return { html: null, datoPlaceholders: {} };
     }
 }
 
@@ -234,7 +256,17 @@ async function main() {
 
     const datoData = await getDatoCmsData();
     const placeholders = getPlaceholders(datoData.datoPlaceholders);
-    placeholders['##EXPERIENCE_AND_EDUCATION##'] = datoData.html;
+    
+    let localData = {};
+    if (fs.existsSync(LOCAL_CONFIG)) {
+        localData = JSON.parse(fs.readFileSync(LOCAL_CONFIG, 'utf8'));
+    }
+
+    if (!datoData.html) {
+        placeholders['##EXPERIENCE_AND_EDUCATION##'] = localData.REPLACE_EXPERIENCE_AND_EDUCATION || '<!-- Local mock data missing -->';
+    } else {
+        placeholders['##EXPERIENCE_AND_EDUCATION##'] = datoData.html;
+    }
     
     processHTML(placeholders);
 }
