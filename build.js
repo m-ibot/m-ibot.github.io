@@ -46,6 +46,12 @@ function getPlaceholders(dato) {
     const lastName = profile.lastName || localData.REPLACE_LAST_NAME || '##LAST_NAME##';
     const fullName = (profile.firstName && profile.lastName) ? `${profile.firstName} ${profile.lastName}` : (localData.REPLACE_FULL_NAME || `${firstName} ${lastName}`);
     const title = profile.title || localData.REPLACE_TITLE || '##TITLE##';
+    
+    let aboutMeText = profile.aboutme || localData.REPLACE_ABOUT_ME || '##ABOUT_ME##';
+    aboutMeText = aboutMeText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+        const target = url.startsWith('http') ? ' target="_blank"' : '';
+        return `<a href="${url}"${target} rel="noopener noreferrer">${text}</a>`;
+    });
 
     const now = new Date();
     return {
@@ -53,6 +59,7 @@ function getPlaceholders(dato) {
         '##LAST_NAME##': lastName,
         '##FULL_NAME##': fullName,
         '##TITLE##': title,
+        '##ABOUT_ME##': aboutMeText,
         '##SOCIAL_XING##': profile.xing || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
         '##SOCIAL_LINKEDIN##': profile.linkedin || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
         '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
@@ -112,6 +119,7 @@ async function getDatoCmsData() {
           github
           linkedin
           xing
+          aboutme
         }
         technicaldataModel {
           domain
