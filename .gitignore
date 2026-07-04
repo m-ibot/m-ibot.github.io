@@ -9,6 +9,7 @@ conductor/
 ideas.md
 
 *.skill
+*.env
 
 dist/
 placeholders.local.json
