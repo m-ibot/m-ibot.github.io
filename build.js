@@ -96,6 +96,15 @@ function getPlaceholders(dato) {
         '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
         '##CONTACT_E_MAIL##': profile.eMail || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
         '##CONTACT_TEXT##': tech.contacttext || localData.REPLACE_CONTACT_TEXT || '##CONTACT_TEXT##',
+        '##SKILLS##': (() => {
+            const skills = dato.allSkills || [];
+            if (skills.length > 0) {
+                return `<div class="skills-container">\n` + 
+                       skills.map(s => `    <span class="skill-badge">${s.label}</span>`).join('\n') + 
+                       `\n</div>`;
+            }
+            return localData.REPLACE_SKILLS || '##SKILLS##';
+        })(),
         '##LOCATION_LABEL##': profile.locationlabel || localData.REPLACE_LOCATION_LABEL || '##LOCATION_LABEL##',
         '##LOCATION_MAP_URL##': (() => {
             const lat = profile.location && profile.location.latitude;
@@ -176,8 +185,11 @@ async function getDatoCmsData() {
           metadescription
           contacttext
         }
+        allSkills(orderBy: position_ASC) {
+          label
+          position
+        }
         allExperiences {
-          id
           title
           company
           start
@@ -221,7 +233,8 @@ async function getDatoCmsData() {
 
         const datoPlaceholders = {
             profile: data.data.profile,
-            technicaldataModel: data.data.technicaldataModel
+            technicaldataModel: data.data.technicaldataModel,
+            allSkills: data.data.allSkills
         };
 
         const items = [];
