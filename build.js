@@ -107,6 +107,7 @@ function getPlaceholders(dato) {
         '##SEO_BING##': tech.seoIdBing || localData.REPLACE_SEO_BING || '##SEO_BING##',
         '##DOMAIN##': tech.domain || localData.REPLACE_DOMAIN || '##DOMAIN##',
         '##SEO_GOOGLE##': tech.seoIdGoogle || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
+        '##META_DESCRIPTION##': tech.metadescription || localData.REPLACE_META_DESCRIPTION || '##META_DESCRIPTION##',
         '##DATE##': now.toISOString().split('T')[0],
         '##YEAR##': now.getFullYear().toString()
     };
@@ -168,6 +169,7 @@ async function getDatoCmsData() {
           domain
           seoIdBing
           seoIdGoogle
+          metadescription
         }
         allExperiences {
           id
