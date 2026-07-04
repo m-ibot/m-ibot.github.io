@@ -379,8 +379,30 @@ footer {
     color: var(--text-color);
 }
 
+.skills-toggle-wrapper {
+    display: none;
+}
+
 /* --- Mobile --- */
 @media (max-width: 768px) {
+    .skill-hidden-mobile {
+        display: none;
+    }
+    
+    .skills-toggle-wrapper {
+        display: flex;
+        margin-top: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .skills-toggle:checked ~ .skills-container .skill-hidden-mobile {
+        display: inline-block;
+    }
+
+    .skills-toggle:checked ~ .skills-toggle-wrapper {
+        display: none !important;
+    }
+
     .hero-content {
         flex-direction: column-reverse;
         text-align: center;

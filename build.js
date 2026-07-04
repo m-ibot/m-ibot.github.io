@@ -99,9 +99,19 @@ function getPlaceholders(dato) {
         '##SKILLS##': (() => {
             const skills = dato.allSkills || [];
             if (skills.length > 0) {
-                return `<div class="skills-container">\n` + 
-                       skills.map(s => `    <span class="skill-badge">${s.label}</span>`).join('\n') + 
-                       `\n</div>`;
+                let html = `<input type="checkbox" id="skills-toggle" class="skills-toggle" hidden autocomplete="off">\n`;
+                html += `<div class="skills-container">\n`;
+                skills.forEach((s, i) => {
+                    const extraClass = i >= 6 ? ' skill-hidden-mobile' : '';
+                    html += `    <span class="skill-badge${extraClass}">${s.label}</span>\n`;
+                });
+                html += `</div>\n`;
+                if (skills.length > 6) {
+                    html += `<div class="timeline-toggle-wrapper skills-toggle-wrapper">\n`;
+                    html += `    <label for="skills-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n`;
+                    html += `</div>\n`;
+                }
+                return html;
             }
             return localData.REPLACE_SKILLS || '##SKILLS##';
         })(),
