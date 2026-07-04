@@ -32,22 +32,28 @@ function minifyCSS(content) {
         .replace(/;\s*}/g, '}');        // Remove trailing semicolon
 }
 
-function getPlaceholders() {
+function getPlaceholders(dato) {
     let localData = {};
     if (fs.existsSync(LOCAL_CONFIG)) {
         localData = JSON.parse(fs.readFileSync(LOCAL_CONFIG, 'utf8'));
     }
 
+    dato = dato || {};
+    const profile = dato.profile || {};
+    const tech = dato.technicaldataModel || {};
+
+    const name = (profile.firstName && profile.lastName) ? `${profile.firstName} ${profile.lastName}` : profile.title;
+
     const now = new Date();
     return {
-        '##NAME##': process.env.REPLACE_NAME || localData.REPLACE_NAME || '##NAME##',
-        '##SOCIAL_XING##': process.env.REPLACE_SOCIAL_XING || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
-        '##SOCIAL_LINKEDIN##': process.env.REPLACE_SOCIAL_LINKEDIN || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
-        '##SOCIAL_GITHUB##': process.env.REPLACE_SOCIAL_GITHUB || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
-        '##CONTACT_E_MAIL##': process.env.REPLACE_CONTACT_E_MAIL || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
-        '##SEO_BING##': process.env.REPLACE_SEO_BING || localData.REPLACE_SEO_BING || '##SEO_BING##',
-        '##DOMAIN##': process.env.REPLACE_DOMAIN || localData.REPLACE_DOMAIN || '##DOMAIN##',
-        '##SEO_GOOGLE##': process.env.REPLACE_SEO_GOOGLE || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
+        '##NAME##': name || process.env.REPLACE_NAME || localData.REPLACE_NAME || '##NAME##',
+        '##SOCIAL_XING##': profile.xing || process.env.REPLACE_SOCIAL_XING || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
+        '##SOCIAL_LINKEDIN##': profile.linkedin || process.env.REPLACE_SOCIAL_LINKEDIN || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
+        '##SOCIAL_GITHUB##': profile.github || process.env.REPLACE_SOCIAL_GITHUB || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
+        '##CONTACT_E_MAIL##': profile.eMail || process.env.REPLACE_CONTACT_E_MAIL || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
+        '##SEO_BING##': tech.seoIdBing || process.env.REPLACE_SEO_BING || localData.REPLACE_SEO_BING || '##SEO_BING##',
+        '##DOMAIN##': tech.domain || process.env.REPLACE_DOMAIN || localData.REPLACE_DOMAIN || '##DOMAIN##',
+        '##SEO_GOOGLE##': tech.seoIdGoogle || process.env.REPLACE_SEO_GOOGLE || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
         '##DATE##': now.toISOString().split('T')[0],
         '##YEAR##': now.getFullYear().toString()
     };
@@ -71,7 +77,7 @@ function processHTML(placeholders) {
     console.log('HTML processed with placeholders and minified CSS link');
 }
 
-async function getDatoCmsHtml() {
+async function getDatoCmsData() {
     let token = process.env.DATO_CMS_API_KEY;
     
     const envPath = path.join(__dirname, 'build.env');
@@ -81,10 +87,24 @@ async function getDatoCmsHtml() {
         if (match) token = match[1].trim();
     }
     
-    if (!token) return '<!-- No DatoCMS token provided -->';
+    if (!token) return { html: '<!-- No DatoCMS token provided -->', datoPlaceholders: {} };
 
     const query = `
       query {
+        profile {
+          firstName
+          lastName
+          title
+          eMail
+          github
+          linkedin
+          xing
+        }
+        technicaldataModel {
+          domain
+          seoIdBing
+          seoIdGoogle
+        }
         allExperiences {
           id
           title
@@ -121,8 +141,13 @@ async function getDatoCmsHtml() {
         const data = await response.json();
         if (data.errors) {
             console.error('DatoCMS Error:', data.errors);
-            return '<!-- Error loading experience data -->';
+            return { html: '<!-- Error loading experience data -->', datoPlaceholders: {} };
         }
+
+        const datoPlaceholders = {
+            profile: data.data.profile,
+            technicaldataModel: data.data.technicaldataModel
+        };
 
         const items = [];
         
@@ -185,11 +210,11 @@ async function getDatoCmsHtml() {
         }
         
         html += '        </div>';
-        return html;
+        return { html, datoPlaceholders };
         
     } catch (err) {
         console.error('Error fetching DatoCMS data:', err);
-        return '<!-- Error fetching DatoCMS data -->';
+        return { html: '<!-- Error fetching DatoCMS data -->', datoPlaceholders: {} };
     }
 }
 
@@ -207,8 +232,9 @@ async function main() {
         console.log('CSS minified to style.min.css');
     }
 
-    const placeholders = getPlaceholders();
-    placeholders['##EXPERIENCE_AND_EDUCATION##'] = await getDatoCmsHtml();
+    const datoData = await getDatoCmsData();
+    const placeholders = getPlaceholders(datoData.datoPlaceholders);
+    placeholders['##EXPERIENCE_AND_EDUCATION##'] = datoData.html;
     
     processHTML(placeholders);
 }

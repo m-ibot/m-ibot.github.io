@@ -14,14 +14,6 @@ jobs:
       - name: Build Website
         shell: bash
         env:
-          REPLACE_NAME: ${{ secrets.REPLACE_NAME }}
-          REPLACE_SOCIAL_XING: ${{ secrets.REPLACE_SOCIAL_XING }}
-          REPLACE_SOCIAL_LINKEDIN: ${{ secrets.REPLACE_SOCIAL_LINKEDIN }}
-          REPLACE_SOCIAL_GITHUB: ${{ secrets.REPLACE_SOCIAL_GITHUB }}
-          REPLACE_CONTACT_E_MAIL: ${{ secrets.REPLACE_CONTACT_E_MAIL }}
-          REPLACE_SEO_BING: ${{ secrets.REPLACE_SEO_BING }}
-          REPLACE_DOMAIN: ${{ secrets.REPLACE_DOMAIN }}
-          REPLACE_SEO_GOOGLE: ${{ secrets.REPLACE_SEO_GOOGLE }}
           DATO_CMS_API_KEY: ${{ secrets.DATO_CMS_API_KEY }}
         run: node build.js
       - name: Setup Pages
