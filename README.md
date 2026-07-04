@@ -75,3 +75,5 @@ The site is automatically deployed to GitHub Pages via a GitHub Actions workflow
 ## Acknowledgements
 
 This project was built and evolved with the assistance of **Google Gemini / Antigravity** agentic coding framework, exploring the capabilities of AI-assisted software engineering and architecture design.
+
+The **Inter** typeface is served via [Bunny Fonts](https://fonts.bunny.net/) — a privacy-friendly, GDPR-compliant font CDN that does not track or log end users. Inter itself is designed by Rasmus Andersson and licensed under the [SIL Open Font License 1.1](https://scripts.sil.org/OFL).
