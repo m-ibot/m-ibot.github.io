@@ -379,24 +379,30 @@ footer {
     color: var(--text-color);
 }
 
-.skills-toggle-wrapper {
+#skills .skills-toggle-wrapper {
     display: none;
 }
 
 /* --- Mobile --- */
 @media (max-width: 768px) {
-    .skill-hidden-mobile {
-        display: none;
+    .skills-container {
+        max-height: 120px;
+        overflow: hidden;
+        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        transition: max-height 0.3s ease;
     }
     
-    .skills-toggle-wrapper {
+    #skills .skills-toggle-wrapper {
         display: flex;
-        margin-top: 0.5rem;
+        margin-top: -1.5rem;
         margin-bottom: 2rem;
     }
 
-    .skills-toggle:checked ~ .skills-container .skill-hidden-mobile {
-        display: inline-block;
+    .skills-toggle:checked ~ .skills-container {
+        max-height: 1000px;
+        mask-image: none;
+        -webkit-mask-image: none;
     }
 
     .skills-toggle:checked ~ .skills-toggle-wrapper {
