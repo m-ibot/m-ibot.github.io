@@ -120,6 +120,9 @@ async function getDatoCmsData() {
           linkedin
           xing
           aboutme
+          profileimage {
+            url
+          }
         }
         technicaldataModel {
           domain
@@ -261,6 +264,22 @@ async function getDatoCmsData() {
     }
 }
 
+async function downloadImage(url, dest) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const buffer = await response.arrayBuffer();
+        fs.writeFileSync(dest, Buffer.from(buffer));
+        console.log('Profile image successfully downloaded from DatoCMS.');
+    } catch (err) {
+        const isCI = process.env.CI === 'true';
+        if (isCI) {
+            throw new Error(`CRITICAL: Failed to download profile image in CI environment. ${err.message}`);
+        }
+        console.warn(`Warning: Failed to download profile image. Falling back to local placeholder. Error: ${err.message}`);
+    }
+}
+
 async function main() {
     console.log('Starting build...');
     cleanDist();
@@ -276,6 +295,21 @@ async function main() {
     }
 
     const datoData = await getDatoCmsData();
+    
+    const isCI = process.env.CI === 'true';
+    const profileObj = datoData.datoPlaceholders && datoData.datoPlaceholders.profile;
+    const profileImageUrl = profileObj && profileObj.profileimage && profileObj.profileimage.url;
+    
+    if (profileImageUrl) {
+        await downloadImage(profileImageUrl, path.join(DIST_DIR, 'assets', 'images', 'profile.jpeg'));
+    } else {
+        if (isCI) {
+            throw new Error("CRITICAL: profileimage field missing in DatoCMS response in CI environment.");
+        } else {
+            console.warn("Warning: profileimage field missing in DatoCMS response. Using local placeholder.");
+        }
+    }
+
     const placeholders = getPlaceholders(datoData.datoPlaceholders);
     
     let localData = {};
