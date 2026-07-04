@@ -95,6 +95,13 @@ function getPlaceholders(dato) {
         '##SOCIAL_LINKEDIN##': profile.linkedin || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
         '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
         '##CONTACT_E_MAIL##': profile.eMail || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
+        '##LOCATION_LABEL##': profile.locationlabel || localData.REPLACE_LOCATION_LABEL || '##LOCATION_LABEL##',
+        '##LOCATION_MAP_URL##': (() => {
+            const lat = profile.location && profile.location.latitude;
+            const lon = profile.location && profile.location.longitude;
+            if (lat && lon) return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=12`;
+            return localData.REPLACE_LOCATION_MAP_URL || '#';
+        })(),
         '##SEO_BING##': tech.seoIdBing || localData.REPLACE_SEO_BING || '##SEO_BING##',
         '##DOMAIN##': tech.domain || localData.REPLACE_DOMAIN || '##DOMAIN##',
         '##SEO_GOOGLE##': tech.seoIdGoogle || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
@@ -151,6 +158,11 @@ async function getDatoCmsData() {
           github
           linkedin
           xing
+          locationlabel
+          location {
+            latitude
+            longitude
+          }
           aboutme
           profileimage {
             url
