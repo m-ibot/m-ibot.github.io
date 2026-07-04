@@ -1,3 +1,22 @@
+/**
+ * build.js
+ * 
+ * Custom Static Site Generator Pipeline
+ * 
+ * This script serves as the entire build pipeline for the project, avoiding the need 
+ * for heavy bundlers like Webpack. It performs the following sequential phases:
+ * 
+ * 1. Clean & Initialize: Wipes the `dist/` directory to ensure a fresh build.
+ * 2. Asset Management: Recursively copies `src/` to `dist/`. Minifies `style.css` 
+ *    and appends an MD5 hash to its filename for cache-busting.
+ * 3. Data Fetching: Queries DatoCMS via a GraphQL request using the native `https` module.
+ *    - Strict CI Mode: If `CI=true`, any missing data or failed requests will abort the build.
+ *    - Local Fallback: If run locally without an API key, it warns and falls back to `placeholders.local.json`.
+ * 4. Asset Download: Downloads the profile image from DatoCMS to be served locally.
+ * 5. HTML Processing: Injects the fetched CMS data (or mock data) and the hashed CSS 
+ *    filename into `dist/index.html`.
+ */
+
 const fs = require('fs');
 const path = require('path');
 

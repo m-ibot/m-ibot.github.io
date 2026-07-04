@@ -1,18 +1,26 @@
 # m-ibot.github.io
 
-This project is a personal website for **m-ibot.eu**, built as a high-performance, accessible, and static one-pager. It uses HTML5, vanilla CSS3, and features a CSS-only light/dark theme toggle.
+This project is a personal website for **m-ibot.eu**, built as a high-performance, accessible, and static one-pager. It is designed to be lightweight and fast, featuring a CSS-only light/dark theme toggle without relying on client-side JavaScript.
+
+## Tech Stack
+
+* **Frontend**: Pure HTML5 and Vanilla CSS3 (No Client-Side JavaScript).
+* **Build System**: Custom Node.js script (`build.js`) for minification, data fetching, and template rendering.
+* **Content Management**: DatoCMS (Headless CMS) accessed via GraphQL.
+* **Hosting & CI/CD**: GitHub Actions for automated building and GitHub Pages for hosting.
 
 ## Architecture
 
-The source code resides in the `src/` directory. The project utilizes a local build script (`build.js`) to:
-1. Combine and minify assets (like CSS).
-2. Fetch dynamic content (like Professional Experience and Education) from DatoCMS.
-3. Replace template placeholders with real data or local dummy data.
-4. Output the final, production-ready website to the `dist/` folder.
+The source code resides in the `src/` directory. The project utilizes a local build script (`build.js`) that acts as a custom static site generator. The build pipeline performs the following:
+1. **Clean & Initialize**: Wipes and recreates the `dist/` output folder.
+2. **Asset Management**: Copies static files from `src/` to `dist/`, minifies the CSS, and applies a content hash for cache-busting.
+3. **Data Fetching**: Executes a GraphQL query against DatoCMS to fetch profile information, SEO metadata, and the Experience & Education timeline.
+4. **Asset Downloading**: Downloads dynamic assets (like the profile image) from the CMS locally into `dist/`.
+5. **HTML Processing**: Replaces template placeholders (e.g., `##ABOUT_ME##`, `##EXPERIENCE_AND_EDUCATION##`) in `dist/index.html` with real data or local mock data.
 
 ## Local Development & Building
 
-To view the website with placeholders intact, you can open `src/index.html` directly in your browser. However, to see the fully processed site (including data fetched from DatoCMS and your local placeholders), you should run the local build.
+To view the raw website with placeholders intact, you can open `src/index.html` directly in your browser. However, to see the fully processed site, you should run the local build.
 
 ### Prerequisites
 1. Ensure you have Node.js installed.
@@ -46,11 +54,24 @@ npx serve dist
 python3 -m http.server --directory dist
 ```
 
-### Placeholders & DatoCMS Data Fallback
+## DatoCMS Data & Fallback Behavior
 
-The build script relies on DatoCMS to populate profile information, SEO metadata, and the Experience & Education timeline. However, it is designed with a fallback mechanism for local development:
-- **Local Development**: If you run the build script locally without setting a `DATO_CMS_API_KEY`, or if the API request fails, the build will not fail. Instead, it will log a warning and fall back to the dummy data provided in `placeholders.local.json`. This allows for seamless offline development.
-- **CI / Deployment**: When running in a Continuous Integration environment (such as GitHub Actions, where `CI=true`), the build script strictly requires the DatoCMS data. If the `DATO_CMS_API_KEY` is missing or the API request fails, the build will explicitly fail and abort. This ensures that the site is never accidentally deployed with missing or mocked data.
+The build script relies on DatoCMS to populate the site's content. However, it is designed with a robust dual-behavior fallback mechanism:
+
+- **Local Development**: If you run the build script locally without setting a `DATO_CMS_API_KEY`, or if the API request fails (e.g., working offline), the build will *not* fail. Instead, it logs a warning and gracefully falls back to the mock data provided in `placeholders.local.json`. This allows for seamless offline development.
+- **CI / Deployment**: When running in a Continuous Integration environment (detected via `CI=true`), the build script strictly requires the DatoCMS data. If the `DATO_CMS_API_KEY` is missing, or an asset (like the profile image) fails to download, the build will explicitly throw an error and abort. This ensures that the site is never accidentally deployed to production with missing or mocked data.
 
 ## Deployment
-The site is automatically deployed to GitHub Pages via a GitHub Actions workflow whenever changes are pushed to the `main` branch. Ensure that your `DATO_CMS_API_KEY` is set in your repository's secrets.
+
+The site is automatically deployed to GitHub Pages via a GitHub Actions workflow (`.github/workflows/deploy.yml`) whenever changes are pushed to the `main` branch. 
+
+**How the deployment works:**
+1. The workflow checks out the repository.
+2. It sets the `DATO_CMS_API_KEY` environment variable from the repository's secure secrets.
+3. It runs `node build.js` to fetch the latest data and compile the static assets into the `dist/` directory.
+4. It uses the `actions/upload-pages-artifact` action to bundle the `dist/` directory.
+5. Finally, it uses `actions/deploy-pages` to publish the artifact live to GitHub Pages.
+
+## Acknowledgements
+
+This project was built and evolved with the assistance of **Google Gemini / Antigravity** agentic coding framework, exploring the capabilities of AI-assisted software engineering and architecture design.
