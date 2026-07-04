@@ -239,7 +239,7 @@ nav:has(#nav-drawer:target) .close-overlay {
 }
 
 section {
-    padding: 4rem 2rem;
+    padding: 2.5rem 2rem;
     max-width: 800px;
     margin: 0 auto;
     opacity: 0;
@@ -379,8 +379,9 @@ footer {
 
 .timeline-icon {
     position: absolute;
-    left: 4px;
-    top: 0;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 34px;
     height: 34px;
     background: var(--bg-color);
@@ -423,7 +424,7 @@ footer {
 }
 
 /* CSS Checkbox Hack for Timeline "Show More" */
-.item-faded {
+.item-faded .timeline-content {
     mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
     opacity: 0.6;
@@ -460,7 +461,7 @@ footer {
 }
 
 /* When the hidden checkbox is checked */
-.experience-toggle:checked ~ .timeline .item-faded {
+.experience-toggle:checked ~ .timeline .item-faded .timeline-content {
     mask-image: none;
     -webkit-mask-image: none;
     opacity: 1;

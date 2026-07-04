@@ -72,14 +72,14 @@ function getPlaceholders(dato) {
     };
 }
 
-function processHTML(placeholders) {
+function processHTML(placeholders, minCssFilename = 'style.min.css') {
     const htmlPath = path.join(DIST_DIR, 'index.html');
     if (!fs.existsSync(htmlPath)) return;
 
     let html = fs.readFileSync(htmlPath, 'utf8');
     
     // Update CSS link
-    html = html.replace('href="style.css"', 'href="style.min.css"');
+    html = html.replace('href="style.css"', `href="${minCssFilename}"`);
 
     // Replace placeholders
     for (const [key, value] of Object.entries(placeholders)) {
@@ -286,12 +286,17 @@ async function main() {
     copyRecursiveSync(SRC_DIR, DIST_DIR);
 
     const cssPath = path.join(DIST_DIR, 'style.css');
-    const minCssPath = path.join(DIST_DIR, 'style.min.css');
+    let minCssFilename = 'style.min.css';
     if (fs.existsSync(cssPath)) {
         const css = fs.readFileSync(cssPath, 'utf8');
-        fs.writeFileSync(minCssPath, minifyCSS(css));
+        const minCss = minifyCSS(css);
+        const crypto = require('crypto');
+        const hash = crypto.createHash('md5').update(minCss).digest('hex').slice(0, 8);
+        minCssFilename = `style.${hash}.min.css`;
+        const minCssPath = path.join(DIST_DIR, minCssFilename);
+        fs.writeFileSync(minCssPath, minCss);
         fs.unlinkSync(cssPath);
-        console.log('CSS minified to style.min.css');
+        console.log(`CSS minified to ${minCssFilename}`);
     }
 
     const datoData = await getDatoCmsData();
@@ -323,7 +328,7 @@ async function main() {
         placeholders['##EXPERIENCE_AND_EDUCATION##'] = datoData.html;
     }
     
-    processHTML(placeholders);
+    processHTML(placeholders, minCssFilename);
 }
 
 main();
