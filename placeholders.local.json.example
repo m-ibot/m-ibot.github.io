@@ -8,6 +8,7 @@
   "REPLACE_META_DESCRIPTION": "Personal website of John Doe, Senior Software Engineer.",
   "REPLACE_LOCATION_LABEL": "Hamburg, Germany",
   "REPLACE_LOCATION_MAP_URL": "https://www.openstreetmap.org/?mlat=53.5488&mlon=9.9872&zoom=12",
+  "REPLACE_CONTACT_TEXT": "Let's connect! Feel free to reach out via email or find me on my social profiles.",
   "REPLACE_SOCIAL_LINKEDIN": "https://linkedin.com/in/johndoe",
   "REPLACE_SOCIAL_XING": "https://xing.com/profile/John_Doe",
   "REPLACE_SOCIAL_GITHUB": "https://github.com/johndoe",

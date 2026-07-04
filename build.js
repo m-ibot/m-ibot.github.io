@@ -95,6 +95,7 @@ function getPlaceholders(dato) {
         '##SOCIAL_LINKEDIN##': profile.linkedin || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
         '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
         '##CONTACT_E_MAIL##': profile.eMail || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
+        '##CONTACT_TEXT##': tech.contacttext || localData.REPLACE_CONTACT_TEXT || '##CONTACT_TEXT##',
         '##LOCATION_LABEL##': profile.locationlabel || localData.REPLACE_LOCATION_LABEL || '##LOCATION_LABEL##',
         '##LOCATION_MAP_URL##': (() => {
             const lat = profile.location && profile.location.latitude;
@@ -173,6 +174,7 @@ async function getDatoCmsData() {
           seoIdBing
           seoIdGoogle
           metadescription
+          contacttext
         }
         allExperiences {
           id
