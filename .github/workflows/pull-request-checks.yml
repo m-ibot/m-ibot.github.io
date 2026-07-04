@@ -17,10 +17,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          source: ./
-          destination: ./_site
+          node-version: '20'
+      - name: Build HTML
+        env:
+          DATO_CMS_API_KEY: ${{ secrets.DATO_CMS_API_KEY }}
+        run: node build.js
+      - name: Validate HTML
+        run: |
+          echo '{"extends":["html-validate:recommended"],"rules":{"prefer-native-element":"off","hidden-focusable":"off","no-trailing-whitespace":"off"}}' > .htmlvalidate.json
+          npx -y html-validate dist/index.html

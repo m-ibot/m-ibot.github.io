@@ -1,0 +1,639 @@
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+}
+
+:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 4px;
+}
+
+#theme-toggle:focus-visible + .toggle-label,
+#theme-toggle:focus + .toggle-label {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+:root {
+    --light-bg: #EEEEEE;
+    --light-text: #222831;
+    --light-accent: #007A80;
+    --light-border: rgba(0, 122, 128, 0.2);
+
+    --dark-bg: #222831;
+    --dark-text: #EEEEEE;
+    --dark-accent: #33C5CC;
+    --dark-border: rgba(255, 255, 255, 0.1);
+
+    /* Default (Light) */
+    --bg-color: var(--light-bg);
+    --text-color: var(--light-text);
+    --accent-color: var(--light-accent);
+    --border-color: var(--light-border);
+    --transition: 0.3s ease;
+    --top-bar-height: 40px;
+}
+
+/* System Preference: Dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: var(--dark-bg);
+        --text-color: var(--dark-text);
+        --accent-color: var(--dark-accent);
+        --border-color: var(--dark-border);
+    }
+}
+
+/* Toggle Override */
+body:has(#theme-toggle:checked) {
+    --bg-color: var(--dark-bg);
+    --text-color: var(--dark-text);
+    --accent-color: var(--dark-accent);
+    --border-color: var(--dark-border);
+}
+
+@media (prefers-color-scheme: dark) {
+    body:has(#theme-toggle:checked) {
+        --bg-color: var(--light-bg);
+        --text-color: var(--light-text);
+        --accent-color: var(--light-accent);
+        --border-color: var(--light-border);
+    }
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition), color var(--transition);
+}
+
+a {
+    color: var(--accent-color);
+    transition: color var(--transition);
+}
+
+.page-wrapper {
+    min-height: 100vh;
+}
+
+/* Collapsible Top Bar */
+.top-bar {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    height: var(--top-bar-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Sticky Header */
+.sticky-header {
+    position: sticky;
+    top: calc(-1 * var(--top-bar-height));
+    z-index: 100;
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover img {
+    transform: scale(1.15);
+}
+
+.logo:active img {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+}
+
+/* Navigation Links (Desktop) */
+.nav-links a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* --- Icons & Interactions --- */
+
+svg {
+    fill: currentColor;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.toggle-label, .hamburger, .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover: Scale up & change color */
+.toggle-label:hover, .hamburger:hover, .social-links a:hover {
+    color: var(--accent-color);
+}
+
+.toggle-label:hover svg, .hamburger:hover svg, .social-links a:hover svg {
+    transform: scale(1.15);
+}
+
+/* Active: Scale down for "press" effect */
+.toggle-label:active svg, .hamburger:active svg, .social-links a:active svg {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+}
+
+/* Theme Icon Visibility */
+.icon-sun, .icon-moon {
+    display: none;
+}
+
+.page-wrapper .icon-moon { display: inline-block; }
+body:has(#theme-toggle:checked) .icon-moon { display: none; }
+body:has(#theme-toggle:checked) .icon-sun { display: inline-block; }
+
+/* In dark mode by OS preference, if NOT explicitly checked */
+@media (prefers-color-scheme: dark) {
+    body:not(:has(#theme-toggle:checked)) .icon-moon { display: none; }
+    body:not(:has(#theme-toggle:checked)) .icon-sun { display: inline-block; }
+    body:has(#theme-toggle:checked) .icon-sun { display: none; }
+    body:has(#theme-toggle:checked) .icon-moon { display: inline-block; }
+}
+
+/* --- Layout --- */
+
+.hamburger, .menu-overlay, .close-overlay {
+    display: none;
+}
+
+/* Hamburger Icon Transitions */
+.hamburger-icon {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transition: all 0.3s ease-in-out;
+}
+
+nav:has(#nav-drawer:target) .hamburger-icon span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+nav:has(#nav-drawer:target) .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+nav:has(#nav-drawer:target) .hamburger-icon span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Unified Close Overlay */
+.close-overlay {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+    z-index: 102;
+}
+
+nav:has(#nav-drawer:target) .close-overlay {
+    display: block;
+}
+
+section {
+    padding: 2rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hero-image img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--accent-color);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.contact-text {
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.social-links {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1rem;
+}
+
+.hero-greeting {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.hero-text h1 {
+    margin: 0.1rem 0 0.25rem;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.hero-subtitle {
+    margin: 0;
+    font-size: 1.15rem;
+    opacity: 0.85;
+    font-weight: 500;
+}
+
+.hero-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    text-decoration: none;
+    transition: opacity var(--transition), color var(--transition);
+}
+
+.hero-location:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* --- Skills --- */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.skill-badge {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color var(--transition), color var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.skill-badge:hover {
+    background-color: var(--card-hover-bg);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    color: var(--text-color);
+}
+
+#skills .skills-toggle-wrapper {
+    display: none;
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+    .skills-container {
+        max-height: 120px;
+        overflow: hidden;
+        mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        transition: max-height 0.3s ease;
+    }
+    
+    #skills .skills-toggle-wrapper {
+        display: flex;
+        margin-top: -1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .skills-toggle:checked ~ .skills-container {
+        max-height: 1000px;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .skills-toggle:checked ~ .skills-toggle-wrapper {
+        display: none !important;
+    }
+
+    .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    
+    .hero-image img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .hamburger { display: inline-flex; z-index: 101; }
+
+    nav { position: relative; }
+    
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 250px;
+        height: 100vh;
+        background-color: var(--bg-color);
+        display: flex;
+        flex-direction: column;
+        padding-top: 5rem;
+        transition: left 0.3s ease;
+        border-right: 1px solid var(--border-color);
+        z-index: 99;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .nav-links a { margin: 1rem 2rem; font-size: 1.2rem; }
+    
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+
+    #nav-drawer:target { left: 0; }
+
+    .menu-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 98;
+    }
+
+    #nav-drawer:target ~ .menu-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* --- Timeline --- */
+.timeline {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    z-index: 1;
+}
+
+.timeline-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.timeline-content {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.timeline-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+.timeline-subtitle {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* CSS Checkbox Hack for Timeline and About "Show More" */
+.item-faded .timeline-content,
+.about-item.item-faded {
+    mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.item-hidden {
+    display: none;
+}
+
+.timeline-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: -2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.btn-show-more {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-show-more:hover {
+    background-color: var(--text-color);
+    transform: translateY(-2px);
+}
+
+/* When the hidden checkbox is checked */
+.experience-toggle:checked ~ .timeline .item-faded .timeline-content {
+    mask-image: none;
+    -webkit-mask-image: none;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.experience-toggle:checked ~ .timeline .item-hidden {
+    display: flex;
+}
+
+.experience-toggle:checked ~ .timeline-toggle-wrapper {
+    display: none;
+}
+
+/* About "Show More" specific layout */
+.about-item p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.about-item:last-child p {
+    margin-bottom: 0;
+}
+
+.about-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: -1.5rem; /* Pull up to overlap the faded text */
+    position: relative;
+    z-index: 10;
+}
+
+/* When the about hidden checkbox is checked */
+.about-toggle:checked ~ .about-container .item-faded {
+    mask-image: none;
+    -webkit-mask-image: none;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.about-toggle:checked ~ .about-container .item-hidden {
+    display: block;
+}
+
+.about-toggle:checked ~ .about-toggle-wrapper {
+    display: none;
+}
