@@ -112,6 +112,23 @@ function getPlaceholders(dato) {
             }
             return localData.REPLACE_SKILLS || '##SKILLS##';
         })(),
+        '##SKILLS_JSON_ARRAY##': JSON.stringify((dato.allSkills || []).length ? dato.allSkills.map(s => s.label) : (localData.REPLACE_SKILLS_JSON_ARRAY || [])),
+        '##WORKS_FOR_JSON##': (() => {
+            if (dato.allExperiences) {
+                const current = dato.allExperiences.find(e => !e.end);
+                if (current) {
+                    return `,\n          "worksFor": {\n            "@type": "Organization",\n            "name": ${JSON.stringify(current.company)}\n          }`;
+                }
+            }
+            return localData.REPLACE_WORKS_FOR_JSON || '';
+        })(),
+        '##ALUMNI_OF_JSON##': (() => {
+            if (dato.allEducations && dato.allEducations.length > 0) {
+                const latest = [...dato.allEducations].sort((a, b) => new Date(b.end) - new Date(a.end))[0];
+                return `,\n          "alumniOf": {\n            "@type": "CollegeOrUniversity",\n            "name": ${JSON.stringify(latest.educationalInstitution)}\n          }`;
+            }
+            return localData.REPLACE_ALUMNI_OF_JSON || '';
+        })(),
         '##LOCATION_LABEL##': profile.locationlabel || localData.REPLACE_LOCATION_LABEL || '##LOCATION_LABEL##',
         '##LOCATION_MAP_URL##': (() => {
             const lat = profile.location && profile.location.latitude;
@@ -241,7 +258,9 @@ async function getDatoCmsData() {
         const datoPlaceholders = {
             profile: data.data.profile,
             technicaldataModel: data.data.technicaldataModel,
-            allSkills: data.data.allSkills
+            allSkills: data.data.allSkills,
+            allExperiences: data.data.allExperiences,
+            allEducations: data.data.allEducations
         };
 
         const items = [];
