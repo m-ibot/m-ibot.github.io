@@ -205,7 +205,8 @@ async function getDatoCmsData() {
             return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
         };
         
-        let html = '<div class="timeline">\n';
+        let html = '<input type="checkbox" id="experience-toggle" class="experience-toggle" hidden autocomplete="off">\n';
+        html += '<div class="timeline">\n';
         
         const icons = {
             experience: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2V8c0-1.11.89-2 2-2h4V4c0-1.11.89-2 2-2h8c1.11 0 2 .89 2 2v2h4z"/></svg>',
@@ -213,8 +214,15 @@ async function getDatoCmsData() {
             break: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M11 8v5l4.25 2.52.75-1.23-3.5-2.07V8H11zM12 2A10 10 0 1 0 22 12 10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>'
         };
 
-        for (const item of items) {
-            html += `            <div class="timeline-item">
+        items.forEach((item, index) => {
+            let itemClass = "timeline-item";
+            if (index === 1) {
+                itemClass += " item-faded";
+            } else if (index > 1) {
+                itemClass += " item-hidden";
+            }
+            
+            html += `            <div class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
@@ -224,9 +232,14 @@ async function getDatoCmsData() {
                     <div class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</div>
                 </div>
             </div>\n`;
-        }
+        });
         
-        html += '        </div>';
+        html += '        </div>\n';
+        if (items.length > 1) {
+            html += '        <div class="timeline-toggle-wrapper">\n';
+            html += '            <label for="experience-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n';
+            html += '        </div>';
+        }
         return { html, datoPlaceholders };
         
     } catch (err) {
