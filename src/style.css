@@ -8,6 +8,25 @@ html {
     outline-offset: 4px;
 }
 
+#theme-toggle:focus-visible + .toggle-label,
+#theme-toggle:focus + .toggle-label {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 :root {
     --light-bg: #EEEEEE;
     --light-text: #222831;
@@ -176,14 +195,15 @@ svg {
 }
 
 .page-wrapper .icon-moon { display: inline-block; }
-#theme-toggle:checked ~ .page-wrapper .icon-moon { display: none; }
-#theme-toggle:checked ~ .page-wrapper .icon-sun { display: inline-block; }
+body:has(#theme-toggle:checked) .icon-moon { display: none; }
+body:has(#theme-toggle:checked) .icon-sun { display: inline-block; }
 
+/* In dark mode by OS preference, if NOT explicitly checked */
 @media (prefers-color-scheme: dark) {
-    .page-wrapper .icon-moon { display: none; }
-    .page-wrapper .icon-sun { display: inline-block; }
-    #theme-toggle:checked ~ .page-wrapper .icon-sun { display: none; }
-    #theme-toggle:checked ~ .page-wrapper .icon-moon { display: inline-block; }
+    body:not(:has(#theme-toggle:checked)) .icon-moon { display: none; }
+    body:not(:has(#theme-toggle:checked)) .icon-sun { display: inline-block; }
+    body:has(#theme-toggle:checked) .icon-sun { display: none; }
+    body:has(#theme-toggle:checked) .icon-moon { display: inline-block; }
 }
 
 /* --- Layout --- */
