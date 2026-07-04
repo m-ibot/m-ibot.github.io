@@ -17,7 +17,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Build HTML
+        run: node build.js
       - name: Validate HTML
         run: |
-          # Simple check for placeholders or structural errors
-          grep -q "##NAME##" src/index.html
+          echo '{"extends":["html-validate:recommended"],"rules":{"prefer-native-element":"off","hidden-focusable":"off","no-trailing-whitespace":"off"}}' > .htmlvalidate.json
+          npx -y html-validate dist/index.html
