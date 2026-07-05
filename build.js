@@ -169,8 +169,9 @@ function processHTML(placeholders, minCssFilename = 'style.min.css') {
     processFile(path.join(DIST_DIR, 'manifest.json'), placeholders);
     processFile(path.join(DIST_DIR, 'sitemap.xml'), placeholders);
     processFile(path.join(DIST_DIR, 'robots.txt'), placeholders);
+    processFile(path.join(DIST_DIR, 'llms.txt'), placeholders);
     
-    console.log('HTML, manifest, sitemap and robots.txt processed with placeholders and minified CSS link');
+    console.log('HTML, manifest, sitemap, robots.txt and llms.txt processed with placeholders and minified CSS link');
 }
 
 async function getDatoCmsData() {

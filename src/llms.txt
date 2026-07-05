@@ -1,0 +1,21 @@
+# ##FULL_NAME## - ##TITLE##
+
+> ##META_DESCRIPTION##
+
+This is a personal portfolio website for ##FULL_NAME##, a ##TITLE## based in ##LOCATION_LABEL##.
+It is a single-page static site with sections for About, Tech Stack & Skills, Experience & Education, and Contact.
+
+## About
+- [About Me](https://##DOMAIN##/#about): Personal introduction and professional background.
+
+## Tech Stack & Skills
+- [Tech Stack & Skills](https://##DOMAIN##/#skills): Technologies, frameworks, and tools.
+
+## Experience & Education
+- [Experience & Education](https://##DOMAIN##/#experience): Career history and academic background.
+
+## Contact & Profiles
+- [Email](mailto:##CONTACT_E_MAIL##): Send an email directly to ##FULL_NAME##.
+- [LinkedIn](##SOCIAL_LINKEDIN##): Professional profile on LinkedIn.
+- [GitHub](##SOCIAL_GITHUB##): Open source projects and contributions on GitHub.
+- [XING](##SOCIAL_XING##): Professional profile on XING.
