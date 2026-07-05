@@ -11,7 +11,7 @@ jobs:
       - name: "Checkout Repository"
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: "Dependency Review"
-        uses: actions/dependency-review-action@e7aeea1772ec01da74cafda11c5caa463520ca59 # v3
+        uses: actions/dependency-review-action@cc4f6536e38d1126c5e3b0683d469a14f23bfea4 # v3
   build-on-pullrequest:
     runs-on: ubuntu-24.04
     steps:
