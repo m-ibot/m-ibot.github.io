@@ -28,4 +28,4 @@ jobs:
       - name: Validate HTML
         run: |
           echo '{"extends":["html-validate:recommended"],"rules":{"prefer-native-element":"off","hidden-focusable":"off","no-trailing-whitespace":"off"}}' > .htmlvalidate.json
-          npx -y html-validate dist/index.html
+          npx -y html-validate dist/index.html dist/404.html
