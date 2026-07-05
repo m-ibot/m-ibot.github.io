@@ -137,6 +137,7 @@ function getPlaceholders(dato) {
             return localData.REPLACE_LOCATION_MAP_URL || '#';
         })(),
         '##SEO_BING##': tech.seoIdBing || localData.REPLACE_SEO_BING || '##SEO_BING##',
+        '##SEO_NAVER##': tech.seoIdNaver || localData.REPLACE_SEO_NAVER || '##SEO_NAVER##',
         '##DOMAIN##': tech.domain || localData.REPLACE_DOMAIN || '##DOMAIN##',
         '##SEO_GOOGLE##': tech.seoIdGoogle || localData.REPLACE_SEO_GOOGLE || '##SEO_GOOGLE##',
         '##META_DESCRIPTION##': tech.metadescription || localData.REPLACE_META_DESCRIPTION || '##META_DESCRIPTION##',

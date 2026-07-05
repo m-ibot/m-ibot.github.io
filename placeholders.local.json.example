@@ -18,5 +18,6 @@
   "REPLACE_SOCIAL_GITHUB": "https://github.com/johndoe",
   "REPLACE_CONTACT_E_MAIL": "john@example.com",
   "REPLACE_SEO_GOOGLE": "google-site-verification-dummy",
-  "REPLACE_SEO_BING": "msvalidate-dummy"
+  "REPLACE_SEO_BING": "msvalidate-dummy",
+  "REPLACE_SEO_NAVER": "naver-site-verification-dummy"
 }
