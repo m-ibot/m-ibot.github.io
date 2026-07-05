@@ -299,8 +299,8 @@ async function getDatoCmsData() {
         for (const brk of (data.data.allCareerBreaks || [])) {
             items.push({
                 type: 'break',
-                title: 'Career Break',
-                subtitle: brk.reason,
+                title: brk.reason,
+                subtitle: 'Career Break',
                 start: new Date(brk.start),
                 end: brk.end ? new Date(brk.end) : null
             });
