@@ -299,9 +299,38 @@ section {
 
 .social-links {
     display: flex;
-    gap: 2rem;
-    padding-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1.5rem;
 }
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.4rem;
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px; /* Pill shape */
+    color: var(--bg-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.social-links a:hover {
+    background-color: transparent;
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.social-links a svg {
+    width: 20px;
+    height: 20px;
+}
+
 
 .hero-greeting {
     margin: 0;
@@ -359,6 +388,7 @@ footer {
     flex-wrap: wrap;
     gap: 0.8rem;
     margin-top: 1rem;
+    padding-top: 4px; /* Prevents badges from clipping when they translate up */
 }
 
 .skill-badge {
@@ -531,6 +561,13 @@ footer {
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     width: 100%;
     box-sizing: border-box;
+    transition: background-color var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.timeline-content:hover {
+    background-color: var(--card-hover-bg);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 .timeline-title {
@@ -572,19 +609,22 @@ footer {
 
 .btn-show-more {
     display: inline-block;
-    padding: 0.5rem 1.5rem;
+    padding: 0.6rem 1.6rem;
     background-color: var(--accent-color);
     color: var(--bg-color);
-    border-radius: 20px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .btn-show-more:hover {
-    background-color: var(--text-color);
+    background-color: transparent;
+    color: var(--accent-color);
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 /* When the hidden checkbox is checked */
