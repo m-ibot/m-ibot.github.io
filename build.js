@@ -165,13 +165,43 @@ function processHTML(placeholders, minCssFilename = 'style.min.css') {
 
     fs.writeFileSync(htmlPath, html);
 
+    // Process placeholders for index.html
     processFile(htmlPath, placeholders);
+
+    // Read the fully processed index.html to generate 404.html dynamically
+    let html404 = fs.readFileSync(htmlPath, 'utf8');
+    
+    // Update Title
+    html404 = html404.replace(/<title>.*?<\/title>/, '<title>404 - Page Not Found</title>');
+    
+    // Inject noindex meta tag
+    html404 = html404.replace('</head>', '    <meta name="robots" content="noindex, nofollow">\n</head>');
+    
+    // Update navigation links to point to the root page
+    html404 = html404.replace(/href="#(home|about|skills|experience|contact)"/g, 'href="/#$1"');
+    
+    // Replace <main> content with 404 content
+    const mainRegex = /<main[^>]*>[\s\S]*?<\/main>/;
+    const notFoundContent = `
+        <section id="not-found" class="section text-center not-found-section">
+            <h1 class="section-title not-found-title">404</h1>
+            <p class="not-found-text">Sorry, the page you are looking for does not exist.</p>
+            <div class="not-found-actions">
+                <a href="/" class="btn-show-more">Return to Home</a>
+            </div>
+        </section>
+    `;
+    html404 = html404.replace(mainRegex, `<main>${notFoundContent}</main>`);
+    
+    // Write 404.html
+    fs.writeFileSync(path.join(DIST_DIR, '404.html'), html404);
+
     processFile(path.join(DIST_DIR, 'manifest.json'), placeholders);
     processFile(path.join(DIST_DIR, 'sitemap.xml'), placeholders);
     processFile(path.join(DIST_DIR, 'robots.txt'), placeholders);
     processFile(path.join(DIST_DIR, 'llms.txt'), placeholders);
     
-    console.log('HTML, manifest, sitemap, robots.txt and llms.txt processed with placeholders and minified CSS link');
+    console.log('HTML, 404.html, manifest, sitemap, robots.txt and llms.txt processed');
 }
 
 async function getDatoCmsData() {
@@ -330,13 +360,17 @@ async function getDatoCmsData() {
                 itemClass += " item-hidden";
             }
             
+            function escapeHtml(text) {
+                if (!text) return '';
+                return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
             html += `            <div class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
                 <div class="timeline-content">
-                    <h3 class="timeline-title">${item.title}</h3>
-                    <div class="timeline-subtitle">${item.subtitle}</div>
+                    <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
+                    <div class="timeline-subtitle">${escapeHtml(item.subtitle)}</div>
                     <div class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</div>
                 </div>
             </div>\n`;

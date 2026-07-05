@@ -20,6 +20,14 @@ jobs:
         env:
           DATO_CMS_API_KEY: ${{ secrets.DATO_CMS_API_KEY }}
         run: node build.js
+      - name: Check for unreplaced placeholders
+        run: |
+          if grep -r -E "##[A-Z_]+##" dist/; then
+            echo "Error: Unreplaced placeholders found in the dist folder!"
+            exit 1
+          else
+            echo "All placeholders successfully replaced."
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Upload artifact
