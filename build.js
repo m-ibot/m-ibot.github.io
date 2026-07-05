@@ -248,6 +248,7 @@ async function getDatoCmsData() {
           domain
           seoIdBing
           seoIdGoogle
+          seoIdNaver
           metadescription
           contacttext
         }
