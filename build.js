@@ -75,7 +75,7 @@ function getPlaceholders(dato) {
     if (paragraphs.length <= 1) {
         aboutMeText = paragraphs.join('');
     } else {
-        aboutMeText = `<input type="checkbox" id="about-toggle" class="about-toggle sr-only" autocomplete="off">\n<div class="about-container">\n`;
+        aboutMeText = `<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="about-toggle" class="about-toggle sr-only" autocomplete="off">\n<div class="about-container">\n`;
         aboutMeText += `    <div class="about-item">${paragraphs[0]}</div>\n`;
         aboutMeText += `    <div class="about-item item-faded">${paragraphs[1]}</div>\n`;
         for (let i = 2; i < paragraphs.length; i++) {
@@ -99,7 +99,7 @@ function getPlaceholders(dato) {
         '##SKILLS##': (() => {
             const skills = dato.allSkills || [];
             if (skills.length > 0) {
-                let html = `<input type="checkbox" id="skills-toggle" class="skills-toggle" autocomplete="off" hidden>\n`;
+                let html = `<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="skills-toggle" class="skills-toggle" autocomplete="off" hidden>\n`;
                 html += `<div class="skills-container">\n`;
                 skills.forEach(s => {
                     html += `    <span class="skill-badge">${s.label}</span>\n`;
@@ -313,7 +313,7 @@ async function getDatoCmsData() {
             return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
         };
         
-        let html = '<input type="checkbox" id="experience-toggle" class="experience-toggle" autocomplete="off" hidden>\n';
+        let html = '<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="experience-toggle" class="experience-toggle" autocomplete="off" hidden>\n';
         html += '<div class="timeline">\n';
         
         const icons = {
