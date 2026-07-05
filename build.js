@@ -183,11 +183,11 @@ function processHTML(placeholders, minCssFilename = 'style.min.css') {
     // Replace <main> content with 404 content
     const mainRegex = /<main[^>]*>[\s\S]*?<\/main>/;
     const notFoundContent = `
-        <section id="not-found" class="section text-center" style="min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <h1 class="section-title" style="font-size: 5rem; margin-bottom: 0;">404</h1>
-            <p style="font-size: 1.5rem; margin-top: 1rem; color: var(--text-color);">Sorry, the page you are looking for does not exist.</p>
-            <div style="margin-top: 3rem;">
-                <a href="/" class="btn-show-more" style="text-decoration: none;">Return to Home</a>
+        <section id="not-found" class="section text-center not-found-section">
+            <h1 class="section-title not-found-title">404</h1>
+            <p class="not-found-text">Sorry, the page you are looking for does not exist.</p>
+            <div class="not-found-actions">
+                <a href="/" class="btn-show-more">Return to Home</a>
             </div>
         </section>
     `;
@@ -360,13 +360,17 @@ async function getDatoCmsData() {
                 itemClass += " item-hidden";
             }
             
+            function escapeHtml(text) {
+                if (!text) return '';
+                return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
             html += `            <div class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
                 <div class="timeline-content">
-                    <h3 class="timeline-title">${item.title}</h3>
-                    <div class="timeline-subtitle">${item.subtitle}</div>
+                    <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
+                    <div class="timeline-subtitle">${escapeHtml(item.subtitle)}</div>
                     <div class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</div>
                 </div>
             </div>\n`;
