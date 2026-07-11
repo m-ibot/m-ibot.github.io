@@ -461,6 +461,7 @@ async function main() {
         placeholders['##EXPERIENCE_AND_EDUCATION##'] = datoData.html;
     }
     
+    placeholders['##BUILD_TIME##'] = new Date().toISOString();
     processHTML(placeholders, minCssFilename);
 }
 
