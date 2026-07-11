@@ -30,7 +30,7 @@ html {
 :root {
     --light-bg: #EEEEEE;
     --light-text: #222831;
-    --light-accent: #007A80;
+    --light-accent: #006C71;
     --light-border: rgba(0, 122, 128, 0.2);
 
     --dark-bg: #222831;
@@ -699,7 +699,7 @@ footer {
 .about-item.item-faded {
     mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
-    opacity: 0.6;
+    opacity: 0.75;
     pointer-events: none;
 }
 
