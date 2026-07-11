@@ -100,11 +100,11 @@ function getPlaceholders(dato) {
             const skills = dato.allSkills || [];
             if (skills.length > 0) {
                 let html = `<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="skills-toggle" class="skills-toggle" autocomplete="off" hidden>\n`;
-                html += `<div class="skills-container">\n`;
+                html += `<ul class="skills-container">\n`;
                 skills.forEach(s => {
-                    html += `    <span class="skill-badge">${s.label}</span>\n`;
+                    html += `    <li class="skill-badge">${s.label}</li>\n`;
                 });
-                html += `</div>\n`;
+                html += `</ul>\n`;
                 html += `<div class="timeline-toggle-wrapper skills-toggle-wrapper">\n`;
                 html += `    <label for="skills-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n`;
                 html += `</div>\n`;
@@ -346,7 +346,7 @@ async function getDatoCmsData() {
         };
         
         let html = '<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="experience-toggle" class="experience-toggle" autocomplete="off" hidden>\n';
-        html += '<div class="timeline">\n';
+        html += '<ol class="timeline">\n';
         
         const icons = {
             experience: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>',
@@ -366,19 +366,19 @@ async function getDatoCmsData() {
                 if (!text) return '';
                 return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
-            html += `            <div class="${itemClass}">
+            html += `            <li class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
                 <div class="timeline-content">
                     <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
                     <div class="timeline-subtitle">${escapeHtml(item.subtitle)}</div>
-                    <div class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</div>
+                    <time class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</time>
                 </div>
-            </div>\n`;
+            </li>\n`;
         });
         
-        html += '        </div>\n';
+        html += '        </ol>\n';
         if (items.length > 1) {
             html += '        <div class="timeline-toggle-wrapper">\n';
             html += '            <label for="experience-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n';
