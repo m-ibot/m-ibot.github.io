@@ -582,7 +582,7 @@ footer {
         box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
     
-    .nav-links a { margin: 1rem 2rem; font-size: 1.2rem; }
+    .nav-links a { display: block; margin: 1rem 2rem; font-size: 1.2rem; }
     
     .nav-links a:hover {
         color: var(--accent-color);
