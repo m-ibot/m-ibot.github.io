@@ -1,0 +1,74 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Build Project
+        env:
+          DATO_CMS_API_KEY: ${{ secrets.DATO_CMS_API_KEY }}
+        run: node build.js
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:8080/
+          staticDistDir: ./dist
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format and Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = ${{ steps.lighthouse.outputs.manifest }};
+            const links = ${{ steps.lighthouse.outputs.links }};
+            
+            let summary = '### ⚡️ Lighthouse Report\n\n';
+            summary += '| URL | Performance | Accessibility | Best Practices | SEO |\n';
+            summary += '| --- | :---: | :---: | :---: | :---: |\n';
+            
+            results.forEach((res) => {
+              const url = res.url;
+              const link = links[url] || '#';
+              const formatScore = (score) => {
+                if (score >= 0.9) return `🟢 ${Math.round(score * 100)}`;
+                if (score >= 0.5) return `🟠 ${Math.round(score * 100)}`;
+                return `🔴 ${Math.round(score * 100)}`;
+              };
+              
+              // Handle URL parsing safely just in case it's not standard
+              let path = '/';
+              try {
+                path = new URL(url).pathname;
+              } catch (e) {
+                path = url;
+              }
+              
+              summary += `| [${path}](${link}) | ${formatScore(res.summary.performance)} | ${formatScore(res.summary.accessibility)} | ${formatScore(res.summary['best-practices'])} | ${formatScore(res.summary.seo)} |\n`;
+            });
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
