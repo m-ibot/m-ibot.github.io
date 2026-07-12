@@ -30,15 +30,15 @@ jobs:
         with:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
-          temporaryPublicStorage: true
+          temporaryPublicStorage: false
 
       - name: Format and Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@d746ffe35508b1917358783b479e04febd2b8f71 # v9.0.0
         with:
           script: |
+            const fs = require('fs');
             const results = ${{ steps.lighthouse.outputs.manifest }};
-            const links = ${{ steps.lighthouse.outputs.links }};
             
             let summary = '### ⚡️ Lighthouse Report\n\n';
             summary += '| URL | Performance | Accessibility | Best Practices | SEO |\n';
@@ -46,24 +46,43 @@ jobs:
             
             results.forEach((res) => {
               const url = res.url;
-              const link = links[url] || '#';
               const formatScore = (score) => {
                 if (score >= 0.9) return `🟢 ${Math.round(score * 100)}`;
                 if (score >= 0.5) return `🟠 ${Math.round(score * 100)}`;
                 return `🔴 ${Math.round(score * 100)}`;
               };
               
-              // Handle URL parsing safely just in case it's not standard
               let path = '/';
-              try {
-                path = new URL(url).pathname;
-              } catch (e) {
-                path = url;
-              }
+              try { path = new URL(url).pathname; } catch (e) { path = url; }
               
-              summary += `| [${path}](${link}) | ${formatScore(res.summary.performance)} | ${formatScore(res.summary.accessibility)} | ${formatScore(res.summary['best-practices'])} | ${formatScore(res.summary.seo)} |\n`;
+              summary += `| ${path} | ${formatScore(res.summary.performance)} | ${formatScore(res.summary.accessibility)} | ${formatScore(res.summary['best-practices'])} | ${formatScore(res.summary.seo)} |\n`;
             });
             
+            summary += '\n#### 🔍 Detailed Findings\n\n';
+            try {
+              const files = fs.readdirSync('.lighthouseci').filter(f => f.endsWith('.json') && f.startsWith('lhr-'));
+              files.forEach(file => {
+                const data = JSON.parse(fs.readFileSync(`.lighthouseci/${file}`, 'utf8'));
+                let path = '/';
+                try { path = new URL(data.finalUrl).pathname; } catch (e) { path = data.finalUrl; }
+                
+                summary += `<details><summary>Findings for <b>${path}</b></summary>\n\n`;
+                let hasFindings = false;
+                for (const key in data.audits) {
+                  const a = data.audits[key];
+                  if (a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'notApplicable' && a.scoreDisplayMode !== 'informative') {
+                    summary += `- **${a.title}**: Score ${a.score}. ${a.displayValue ? a.displayValue : ''}\n`;
+                    hasFindings = true;
+                  }
+                }
+                if (!hasFindings) summary += '- No significant issues found! 🎉\n';
+                summary += '</details>\n\n';
+              });
+              summary += '> *Full HTML reports are available as Workflow Artifacts on this run.*\n';
+            } catch (err) {
+              console.log('Could not parse detailed findings:', err);
+            }
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
