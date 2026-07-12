@@ -81,7 +81,7 @@ function getPlaceholders(dato) {
         for (let i = 2; i < paragraphs.length; i++) {
             aboutMeText += `    <div class="about-item item-hidden">${paragraphs[i]}</div>\n`;
         }
-        aboutMeText += `</div>\n<div class="about-toggle-wrapper">\n    <label for="about-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n</div>`;
+        aboutMeText += `</div>\n<div class="about-toggle-wrapper">\n    <label for="about-toggle" class="btn-show-more" tabindex="0">Show More</label>\n</div>`;
     }
 
     const now = new Date();
@@ -106,7 +106,7 @@ function getPlaceholders(dato) {
                 });
                 html += `</ul>\n`;
                 html += `<div class="timeline-toggle-wrapper skills-toggle-wrapper">\n`;
-                html += `    <label for="skills-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n`;
+                html += `    <label for="skills-toggle" class="btn-show-more" tabindex="0">Show More</label>\n`;
                 html += `</div>\n`;
                 return html;
             }
@@ -161,8 +161,10 @@ function processHTML(placeholders, minCssFilename = 'style.min.css') {
 
     let html = fs.readFileSync(htmlPath, 'utf8');
     
-    // Update CSS link
-    html = html.replace('href="style.css"', `href="${minCssFilename}"`);
+    // Inline CSS
+    const minCssPath = path.join(DIST_DIR, minCssFilename);
+    const minCssContent = fs.readFileSync(minCssPath, 'utf8');
+    html = html.replace('<link rel="stylesheet" href="style.css">', `<style>\n${minCssContent}\n</style>`);
 
     fs.writeFileSync(htmlPath, html);
 
@@ -381,7 +383,7 @@ async function getDatoCmsData() {
         html += '        </ol>\n';
         if (items.length > 1) {
             html += '        <div class="timeline-toggle-wrapper">\n';
-            html += '            <label for="experience-toggle" class="btn-show-more" tabindex="0" role="button">Show More</label>\n';
+            html += '            <label for="experience-toggle" class="btn-show-more" tabindex="0">Show More</label>\n';
             html += '        </div>';
         }
         return { html, datoPlaceholders };
@@ -439,7 +441,12 @@ async function main() {
     const profileImageUrl = profileObj && profileObj.profileimage && profileObj.profileimage.url;
     
     if (profileImageUrl) {
-        await downloadImage(profileImageUrl, path.join(DIST_DIR, 'assets', 'images', 'profile.jpeg'));
+        const optUrl = new URL(profileImageUrl);
+        optUrl.searchParams.set('w', '600');
+        optUrl.searchParams.set('h', '600');
+        optUrl.searchParams.set('fit', 'crop');
+        optUrl.searchParams.set('fm', 'webp');
+        await downloadImage(optUrl.toString(), path.join(DIST_DIR, 'assets', 'images', 'profile.webp'));
     } else {
         if (isCI) {
             throw new Error("CRITICAL: profileimage field missing in DatoCMS response in CI environment.");
