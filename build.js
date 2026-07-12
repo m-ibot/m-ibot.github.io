@@ -452,6 +452,10 @@ async function main() {
             throw new Error("CRITICAL: profileimage field missing in DatoCMS response in CI environment.");
         } else {
             console.warn("Warning: profileimage field missing in DatoCMS response. Using local placeholder.");
+            const distHtmlPath = path.join(DIST_DIR, 'index.html');
+            let distHtml = fs.readFileSync(distHtmlPath, 'utf8');
+            distHtml = distHtml.replace('assets/images/profile.webp', 'assets/images/profile.jpeg');
+            fs.writeFileSync(distHtmlPath, distHtml);
         }
     }
 
