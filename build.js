@@ -94,6 +94,7 @@ function getPlaceholders(dato) {
         '##SOCIAL_XING##': profile.xing || localData.REPLACE_SOCIAL_XING || '##SOCIAL_XING##',
         '##SOCIAL_LINKEDIN##': profile.linkedin || localData.REPLACE_SOCIAL_LINKEDIN || '##SOCIAL_LINKEDIN##',
         '##SOCIAL_GITHUB##': profile.github || localData.REPLACE_SOCIAL_GITHUB || '##SOCIAL_GITHUB##',
+        '##SOURCE_GITHUB_REPO##': tech.githubSource || localData.REPLACE_SOURCE_GITHUB_REPO || '##SOURCE_GITHUB_REPO##',
         '##CONTACT_E_MAIL##': profile.eMail || localData.REPLACE_CONTACT_E_MAIL || '##CONTACT_E_MAIL##',
         '##CONTACT_TEXT##': tech.contacttext || localData.REPLACE_CONTACT_TEXT || '##CONTACT_TEXT##',
         '##SKILLS##': (() => {
@@ -253,6 +254,7 @@ async function getDatoCmsData() {
           seoIdNaver
           metadescription
           contacttext
+          githubSource
         }
         allSkills(orderBy: position_ASC) {
           label
