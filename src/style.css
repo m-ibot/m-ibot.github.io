@@ -87,6 +87,10 @@ a {
     transition: color var(--transition);
 }
 
+address {
+    font-style: normal;
+}
+
 .page-wrapper {
     min-height: 100vh;
 }
