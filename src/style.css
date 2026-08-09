@@ -87,6 +87,10 @@ a {
     transition: color var(--transition);
 }
 
+address {
+    font-style: normal;
+}
+
 .page-wrapper {
     min-height: 100vh;
 }
@@ -484,6 +488,25 @@ footer {
     border-top: 1px solid var(--border-color);
     opacity: 0.8;
     font-size: 0.9rem;
+}
+
+.source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all var(--transition);
+}
+
+.source-badge:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 /* --- Skills --- */
