@@ -51,6 +51,11 @@ function minifyCSS(content) {
         .replace(/;\s*}/g, '}');        // Remove trailing semicolon
 }
 
+function escapeHtml(text) {
+    if (!text) return '';
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
 function getPlaceholders(dato) {
     let localData = {};
     if (fs.existsSync(LOCAL_CONFIG)) {
@@ -103,7 +108,7 @@ function getPlaceholders(dato) {
                 let html = `<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="skills-toggle" class="skills-toggle" autocomplete="off" hidden>\n`;
                 html += `<ul class="skills-container">\n`;
                 skills.forEach(s => {
-                    html += `    <li class="skill-badge">${s.label}</li>\n`;
+                    html += `    <li class="skill-badge">${escapeHtml(s.label)}</li>\n`;
                 });
                 html += `</ul>\n`;
                 html += `<div class="timeline-toggle-wrapper skills-toggle-wrapper">\n`;
@@ -118,7 +123,12 @@ function getPlaceholders(dato) {
             if (dato.allExperiences) {
                 const current = dato.allExperiences.find(e => !e.end);
                 if (current) {
-                    return `,\n          "worksFor": {\n            "@type": "Organization",\n            "name": ${JSON.stringify(current.company)}\n          }`;
+                    let jsonStr = `,\n          "worksFor": {\n            "@type": "Organization",\n            "name": ${JSON.stringify(current.company)}`;
+                    if (current.website) {
+                        jsonStr += `,\n            "url": ${JSON.stringify(current.website)}`;
+                    }
+                    jsonStr += `\n          }`;
+                    return jsonStr;
                 }
             }
             return localData.REPLACE_WORKS_FOR_JSON || '';
@@ -126,7 +136,12 @@ function getPlaceholders(dato) {
         '##ALUMNI_OF_JSON##': (() => {
             if (dato.allEducations && dato.allEducations.length > 0) {
                 const latest = [...dato.allEducations].sort((a, b) => new Date(b.end) - new Date(a.end))[0];
-                return `,\n          "alumniOf": {\n            "@type": "CollegeOrUniversity",\n            "name": ${JSON.stringify(latest.educationalInstitution)}\n          }`;
+                let jsonStr = `,\n          "alumniOf": {\n            "@type": "CollegeOrUniversity",\n            "name": ${JSON.stringify(latest.educationalInstitution)}`;
+                if (latest.website) {
+                    jsonStr += `,\n            "url": ${JSON.stringify(latest.website)}`;
+                }
+                jsonStr += `\n          }`;
+                return jsonStr;
             }
             return localData.REPLACE_ALUMNI_OF_JSON || '';
         })(),
@@ -256,24 +271,26 @@ async function getDatoCmsData() {
           contacttext
           githubSource
         }
-        allSkills(orderBy: position_ASC) {
+        allSkills(first: 100, orderBy: position_ASC) {
           label
           position
         }
-        allExperiences {
+        allExperiences(first: 100) {
           title
           company
           start
           end
+          website
         }
-        allEducations {
+        allEducations(first: 100) {
           id
           title
           educationalInstitution
           start
           end
+          website
         }
-        allCareerBreaks {
+        allCareerBreaks(first: 100) {
           id
           reason
           start
@@ -318,7 +335,8 @@ async function getDatoCmsData() {
                 title: exp.title,
                 subtitle: exp.company,
                 start: new Date(exp.start),
-                end: exp.end ? new Date(exp.end) : null
+                end: exp.end ? new Date(exp.end) : null,
+                website: exp.website
             });
         }
         
@@ -328,7 +346,8 @@ async function getDatoCmsData() {
                 title: edu.title,
                 subtitle: edu.educationalInstitution,
                 start: new Date(edu.start),
-                end: edu.end ? new Date(edu.end) : null
+                end: edu.end ? new Date(edu.end) : null,
+                website: edu.website
             });
         }
         
@@ -366,17 +385,18 @@ async function getDatoCmsData() {
                 itemClass += " item-hidden";
             }
             
-            function escapeHtml(text) {
-                if (!text) return '';
-                return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            let subtitleHtml = escapeHtml(item.subtitle);
+            if (item.website) {
+                subtitleHtml = `<a href="${escapeHtml(item.website)}" target="_blank" rel="noopener noreferrer" aria-label="Visit website of ${escapeHtml(item.subtitle)}">${subtitleHtml}</a>`;
             }
+
             html += `            <li class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
                 <div class="timeline-content">
                     <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
-                    <div class="timeline-subtitle">${escapeHtml(item.subtitle)}</div>
+                    <div class="timeline-subtitle">${subtitleHtml}</div>
                     <time class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</time>
                 </div>
             </li>\n`;
