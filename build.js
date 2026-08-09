@@ -265,6 +265,7 @@ async function getDatoCmsData() {
           company
           start
           end
+          website
         }
         allEducations {
           id
@@ -272,6 +273,7 @@ async function getDatoCmsData() {
           educationalInstitution
           start
           end
+          website
         }
         allCareerBreaks {
           id
@@ -318,7 +320,8 @@ async function getDatoCmsData() {
                 title: exp.title,
                 subtitle: exp.company,
                 start: new Date(exp.start),
-                end: exp.end ? new Date(exp.end) : null
+                end: exp.end ? new Date(exp.end) : null,
+                website: exp.website
             });
         }
         
@@ -328,7 +331,8 @@ async function getDatoCmsData() {
                 title: edu.title,
                 subtitle: edu.educationalInstitution,
                 start: new Date(edu.start),
-                end: edu.end ? new Date(edu.end) : null
+                end: edu.end ? new Date(edu.end) : null,
+                website: edu.website
             });
         }
         
@@ -370,13 +374,19 @@ async function getDatoCmsData() {
                 if (!text) return '';
                 return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
+            
+            let subtitleHtml = escapeHtml(item.subtitle);
+            if (item.website) {
+                subtitleHtml = `<a href="${escapeHtml(item.website)}" target="_blank" rel="noopener noreferrer" aria-label="Visit website of ${escapeHtml(item.subtitle)}">${subtitleHtml}</a>`;
+            }
+
             html += `            <li class="${itemClass}">
                 <div class="timeline-icon timeline-icon-${item.type}">
                     ${icons[item.type]}
                 </div>
                 <div class="timeline-content">
                     <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
-                    <div class="timeline-subtitle">${escapeHtml(item.subtitle)}</div>
+                    <div class="timeline-subtitle">${subtitleHtml}</div>
                     <time class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</time>
                 </div>
             </li>\n`;
