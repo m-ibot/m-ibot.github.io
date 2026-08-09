@@ -560,7 +560,7 @@ footer {
     }
 
     .skills-toggle:checked ~ .skills-container {
-        max-height: 1000px;
+        max-height: 3000px;
         mask-image: none;
         -webkit-mask-image: none;
     }
