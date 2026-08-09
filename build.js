@@ -266,18 +266,18 @@ async function getDatoCmsData() {
           contacttext
           githubSource
         }
-        allSkills(orderBy: position_ASC) {
+        allSkills(first: 100, orderBy: position_ASC) {
           label
           position
         }
-        allExperiences {
+        allExperiences(first: 100) {
           title
           company
           start
           end
           website
         }
-        allEducations {
+        allEducations(first: 100) {
           id
           title
           educationalInstitution
@@ -285,7 +285,7 @@ async function getDatoCmsData() {
           end
           website
         }
-        allCareerBreaks {
+        allCareerBreaks(first: 100) {
           id
           reason
           start
