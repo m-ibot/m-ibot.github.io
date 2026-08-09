@@ -118,7 +118,12 @@ function getPlaceholders(dato) {
             if (dato.allExperiences) {
                 const current = dato.allExperiences.find(e => !e.end);
                 if (current) {
-                    return `,\n          "worksFor": {\n            "@type": "Organization",\n            "name": ${JSON.stringify(current.company)}\n          }`;
+                    let jsonStr = `,\n          "worksFor": {\n            "@type": "Organization",\n            "name": ${JSON.stringify(current.company)}`;
+                    if (current.website) {
+                        jsonStr += `,\n            "url": ${JSON.stringify(current.website)}`;
+                    }
+                    jsonStr += `\n          }`;
+                    return jsonStr;
                 }
             }
             return localData.REPLACE_WORKS_FOR_JSON || '';
@@ -126,7 +131,12 @@ function getPlaceholders(dato) {
         '##ALUMNI_OF_JSON##': (() => {
             if (dato.allEducations && dato.allEducations.length > 0) {
                 const latest = [...dato.allEducations].sort((a, b) => new Date(b.end) - new Date(a.end))[0];
-                return `,\n          "alumniOf": {\n            "@type": "CollegeOrUniversity",\n            "name": ${JSON.stringify(latest.educationalInstitution)}\n          }`;
+                let jsonStr = `,\n          "alumniOf": {\n            "@type": "CollegeOrUniversity",\n            "name": ${JSON.stringify(latest.educationalInstitution)}`;
+                if (latest.website) {
+                    jsonStr += `,\n            "url": ${JSON.stringify(latest.website)}`;
+                }
+                jsonStr += `\n          }`;
+                return jsonStr;
             }
             return localData.REPLACE_ALUMNI_OF_JSON || '';
         })(),
