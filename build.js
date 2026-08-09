@@ -51,6 +51,11 @@ function minifyCSS(content) {
         .replace(/;\s*}/g, '}');        // Remove trailing semicolon
 }
 
+function escapeHtml(text) {
+    if (!text) return '';
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
 function getPlaceholders(dato) {
     let localData = {};
     if (fs.existsSync(LOCAL_CONFIG)) {
@@ -103,7 +108,7 @@ function getPlaceholders(dato) {
                 let html = `<!-- [html-validate-disable-next input-attributes, valid-autocomplete] -->\n<input type="checkbox" id="skills-toggle" class="skills-toggle" autocomplete="off" hidden>\n`;
                 html += `<ul class="skills-container">\n`;
                 skills.forEach(s => {
-                    html += `    <li class="skill-badge">${s.label}</li>\n`;
+                    html += `    <li class="skill-badge">${escapeHtml(s.label)}</li>\n`;
                 });
                 html += `</ul>\n`;
                 html += `<div class="timeline-toggle-wrapper skills-toggle-wrapper">\n`;
@@ -378,11 +383,6 @@ async function getDatoCmsData() {
                 itemClass += " item-faded";
             } else if (index > 1) {
                 itemClass += " item-hidden";
-            }
-            
-            function escapeHtml(text) {
-                if (!text) return '';
-                return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
             
             let subtitleHtml = escapeHtml(item.subtitle);
