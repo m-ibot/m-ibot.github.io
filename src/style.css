@@ -665,8 +665,7 @@ footer {
 .timeline-icon {
     position: absolute;
     left: 2px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1rem;
     width: 34px;
     height: 34px;
     background: var(--bg-color);
@@ -812,7 +811,7 @@ footer {
 }
 
 .experience-toggle:checked ~ .timeline .item-hidden {
-    display: flex;
+    display: list-item;
 }
 
 .experience-toggle:checked ~ .timeline-toggle-wrapper {
@@ -852,4 +851,51 @@ footer {
 
 .about-toggle:checked ~ .about-toggle-wrapper {
     display: none;
+}
+
+/* Inline Timeline Details */
+.timeline-location {
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.timeline-details {
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+}
+
+.timeline-summary {
+    cursor: pointer;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    list-style: none; /* Hide default triangle */
+}
+
+/* Fallback for Webkit to hide default triangle */
+.timeline-summary::-webkit-details-marker {
+    display: none;
+}
+
+.timeline-summary::after {
+    content: " ▼";
+    font-size: 0.8em;
+}
+
+.timeline-details[open] .timeline-summary::after {
+    content: " ▲";
+}
+
+.timeline-highlights {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.timeline-highlights ul {
+    padding-left: 1.2rem;
+    margin: 0.5rem 0;
 }
