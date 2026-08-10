@@ -1,15 +1,4 @@
-# Block AI Training Bots
-User-agent: GPTBot
-Disallow: /
 
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
 
 # Allow AI Search Agents
 User-agent: OAI-SearchBot
