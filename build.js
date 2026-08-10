@@ -281,6 +281,8 @@ async function getDatoCmsData() {
           start
           end
           website
+          location
+          highlights
         }
         allEducations(first: 100) {
           id
@@ -289,12 +291,16 @@ async function getDatoCmsData() {
           start
           end
           website
+          location
+          highlights
         }
         allCareerBreaks(first: 100) {
           id
           reason
           start
           end
+          location
+          highlights
         }
       }
     `;
@@ -336,7 +342,9 @@ async function getDatoCmsData() {
                 subtitle: exp.company,
                 start: new Date(exp.start),
                 end: exp.end ? new Date(exp.end) : null,
-                website: exp.website
+                website: exp.website,
+                location: exp.location,
+                highlights: exp.highlights
             });
         }
         
@@ -347,7 +355,9 @@ async function getDatoCmsData() {
                 subtitle: edu.educationalInstitution,
                 start: new Date(edu.start),
                 end: edu.end ? new Date(edu.end) : null,
-                website: edu.website
+                website: edu.website,
+                location: edu.location,
+                highlights: edu.highlights
             });
         }
         
@@ -357,7 +367,9 @@ async function getDatoCmsData() {
                 title: brk.reason,
                 subtitle: 'Career Break',
                 start: new Date(brk.start),
-                end: brk.end ? new Date(brk.end) : null
+                end: brk.end ? new Date(brk.end) : null,
+                location: brk.location,
+                highlights: brk.highlights
             });
         }
         
@@ -397,7 +409,13 @@ async function getDatoCmsData() {
                 <div class="timeline-content">
                     <h3 class="timeline-title">${escapeHtml(item.title)}</h3>
                     <div class="timeline-subtitle">${subtitleHtml}</div>
+                    ${item.location ? `<div class="timeline-location">${escapeHtml(item.location)}</div>` : ''}
                     <time class="timeline-date">${formatDate(item.start)} &ndash; ${formatDate(item.end)}</time>
+                    ${item.highlights ? `
+                    <details class="timeline-details">
+                        <summary class="timeline-summary">Click for details</summary>
+                        <div class="timeline-highlights">${item.highlights}</div>
+                    </details>` : ''}
                 </div>
             </li>\n`;
         });
